@@ -1,0 +1,17 @@
+/* Fallback palette for nova-dark.
+   Originally these came from pywal (~/.cache/wal/colors-waybar.css),
+   which is not installed — leaving them undefined made GTK drop every
+   rule in the theme. Re-add the wal import in style.css if you install pywal. */
+
+@define-color background      #11141c;
+@define-color background-sec  #1a1f2e;
+@define-color foreground      #d5d8e0;
+
+@define-color color0  #11141c;
+@define-color color1  #2a3045;
+@define-color color2  #e05f6a;
+@define-color color3  #6fa8dc;
+@define-color color4  #5a7fc4;
+@define-color color5  #7d8bb5;
+@define-color color6  #7aa2f7;
+@define-color color7  #d5d8e0;
