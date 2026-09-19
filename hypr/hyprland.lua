@@ -35,7 +35,6 @@ local menu = "~/.config/rofi/launchers/type-2/launcher.sh"
 -- Or execute your favorite apps at launch like this:
 --
 hl.on("hyprland.start", function()
-    -- hl.exec_cmd(terminal)
     hl.exec_cmd("nm-applet")
     hl.exec_cmd("blueman-applet")
     hl.exec_cmd("waybar")
@@ -43,6 +42,8 @@ hl.on("hyprland.start", function()
     hl.exec_cmd("gnome-keyring-daemon --start --components=secrets")
     hl.exec_cmd("swaync")
     hl.exec_cmd("hyprsunset")
+    hl.exec_cmd("wl-paste --type text --watch cliphist store")
+    hl.exec_cmd("wl-paste --type image --watch cliphist store")
 end)
 
 
@@ -260,6 +261,7 @@ hl.bind(mainMod .. " + SHIFT + e", hl.dsp.exec_cmd("~/.config/rofi/powermenu/typ
 hl.bind(mainMod .. " + E", hl.dsp.exec_cmd(fileManager))
 hl.bind(mainMod .. " + SHIFT + R", hl.dsp.exec_cmd("~/.config/waybar/waybar_launch.sh"))
 hl.bind(mainMod .. " + SHIFT + b", hl.dsp.exec_cmd("brave-browser --password-store=gnome-libsecret"))
+hl.bind(mainMod .. " + SHIFT + X", hl.dsp.exec_cmd("hyprlock"))
 hl.bind(mainMod .. " + F", hl.dsp.window.float({ action = "toggle" }))
 hl.bind(mainMod .. " + D", hl.dsp.exec_cmd(menu))
 hl.bind(mainMod .. " + P", hl.dsp.window.pseudo())
@@ -358,4 +360,10 @@ hl.window_rule({
 
     move  = "20 monitor_h-120",
     float = true,
+})
+hl.layer_rule({
+    name = "blurs-blur",
+    match = { namespace = "^blurs$" },
+    blur = true,
+    ignore_alpha = 0.3,
 })
