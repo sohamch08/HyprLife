@@ -22,7 +22,7 @@ hl.monitor({
 -- Set programs that you use
 local terminal = "alacritty"
 local fileManager = "nautilus"
-local menu = "rofi -show drun || pkill rofi"
+local menu = "~/.config/rofi/launchers/type-2/launcher.sh"
 
 
 -------------------
@@ -253,8 +253,9 @@ local mainMod = "SUPER" -- Sets "Windows" key as main modifier
 hl.bind(mainMod .. " + return", hl.dsp.exec_cmd(terminal))
 local closeWindowBind = hl.bind(mainMod .. " + Q", hl.dsp.window.close())
 -- closeWindowBind:set_enabled(false)
-hl.bind(mainMod .. " + SHIFT + e",
-    hl.dsp.exec_cmd("command -v hyprshutdown >/dev/null 2>&1 && hyprshutdown || hyprctl dispatch 'hl.dsp.exit()'"))
+-- hl.bind(mainMod .. " + SHIFT + e",
+    -- hl.dsp.exec_cmd("command -v hyprshutdown >/dev/null 2>&1 && hyprshutdown || hyprctl dispatch 'hl.dsp.exit()'"))
+hl.bind(mainMod .. " + SHIFT + e", hl.dsp.exec_cmd("~/.config/rofi/powermenu/type-4/powermenu.sh"))
 hl.bind(mainMod .. " + E", hl.dsp.exec_cmd(fileManager))
 hl.bind(mainMod .. " + SHIFT + R", hl.dsp.exec_cmd("~/.config/waybar/waybar_launch.sh"))
 hl.bind(mainMod .. " + SHIFT + b", hl.dsp.exec_cmd("brave-browser --password-store=gnome-libsecret"))
