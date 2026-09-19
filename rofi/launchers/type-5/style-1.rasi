@@ -17,7 +17,7 @@ configuration {
 
 /*****----- Global Properties -----*****/
 * {
-    font:                        "Grape Nuts 14";
+    font:                        "Iosevka Nerd Font Propo 14";
 }
 
 /*****----- Main Window -----*****/
@@ -71,7 +71,7 @@ inputbar {
 
 prompt {
     enabled:                     true;
-    font:                        "Grape Nuts Bold 14";
+    font:                        "Iosevka Nerd Font Propo Bold 14";
     background-color:            transparent;
     text-color:                  inherit;
 }

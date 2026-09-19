@@ -26,7 +26,7 @@ configuration {
     element-padding:             100px 10px;
     element-radius:              0px;
     general-radius:              0px;
-    element-font:                "feather 64";
+    element-font:                "Iosevka Nerd Font Propo 64";
 }
 
 /*****----- Main Window -----*****/

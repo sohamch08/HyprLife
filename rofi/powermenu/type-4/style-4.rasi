@@ -24,9 +24,9 @@ configuration {
     element-padding:             35px 40px;
     element-border-radius:       80px;
 
-    prompt-font:                 "Iosevka Nerd Font Bold Italic 72";
-    textbox-font:                "Iosevka Nerd Font 16";
-    element-text-font:           "feather Bold 64";
+    prompt-font:                 "Iosevka Nerd Font Propo Bold Italic 72";
+    textbox-font:                "Iosevka Nerd Font Propo 16";
+    element-text-font:           "Iosevka Nerd Font Propo Bold 64";
 
     /* Gradients */
     gradient-1:                  linear-gradient(45, #1E98FD, #06FDA5);
