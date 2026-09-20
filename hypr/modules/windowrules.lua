@@ -127,3 +127,17 @@ hl.layer_rule({
     blur = true,
     ignore_alpha = 0.3,
 })
+
+hl.layer_rule({
+    name = "swaync-control",
+    match = { namespace = "swaync-control-center" },
+    blur = true,
+    ignore_alpha = 0.5,
+})
+
+hl.layer_rule({
+    name = "swaync-notification",
+    match = { namespace = "swaync-notification-window" },
+    blur = true,
+    ignore_alpha = 0.5,
+})
