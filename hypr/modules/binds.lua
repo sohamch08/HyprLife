@@ -1,24 +1,24 @@
 local terminal = "alacritty"
 local fileManager = "dolphin"
 local menu = "~/.config/rofi/launchers/type-2/launcher.sh"
+local clipboard = "rofi -modi 'Clipboard:/home/soham/.config/cliphist/cliphist-rofi' -show Clipboard -theme ~/.config/rofi/launchers/type-1/style-11.rasi"
 ---------------------
 ---- KEYBINDINGS ----
 ---------------------
 
 local mainMod = "SUPER" -- Sets "Windows" key as main modifier
-
--- Example binds, see https://wiki.hypr.land/Configuring/Basics/Binds/ for more
-hl.bind(mainMod .. " + return", hl.dsp.exec_cmd(terminal))
 local closeWindowBind = hl.bind(mainMod .. " + Q", hl.dsp.window.close())
--- closeWindowBind:set_enabled(false)
--- hl.bind(mainMod .. " + SHIFT + e",
-    -- hl.dsp.exec_cmd("command -v hyprshutdown >/dev/null 2>&1 && hyprshutdown || hyprctl dispatch 'hl.dsp.exit()'"))
+
+hl.bind(mainMod .. " + RETURN", hl.dsp.exec_cmd(terminal))
+hl.bind(mainMod .. " + C", hl.dsp.exec_cmd(clipboard))
+hl.bind(mainMod .. " + SHIFT + e", hl.dsp.exec_cmd("~/.config/rofi/powermenu/type-4/powermenu.sh"))
 hl.bind(mainMod .. " + SHIFT + e", hl.dsp.exec_cmd("~/.config/rofi/powermenu/type-4/powermenu.sh"))
 hl.bind(mainMod .. " + E", hl.dsp.exec_cmd(fileManager))
 hl.bind(mainMod .. " + SHIFT + R", hl.dsp.exec_cmd("~/.config/waybar/waybar_launch.sh"))
 hl.bind(mainMod .. " + SHIFT + b", hl.dsp.exec_cmd("brave-browser --password-store=gnome-libsecret"))
 hl.bind(mainMod .. " + SHIFT + X", hl.dsp.exec_cmd("hyprlock"))
 hl.bind(mainMod .. " + F", hl.dsp.window.float({ action = "toggle" }))
+hl.bind(mainMod .. " + SHIFT + F", hl.dsp.window.float({ action = "toggle" }))
 hl.bind(mainMod .. " + D", hl.dsp.exec_cmd(menu))
 hl.bind(mainMod .. " + P", hl.dsp.window.pseudo())
 -- hl.bind(mainMod .. " + S", hl.dsp.layout("togglesplit"))    -- dwindle only
@@ -28,6 +28,14 @@ hl.bind(mainMod .. " + H", hl.dsp.focus({ direction = "left" }))
 hl.bind(mainMod .. " + L", hl.dsp.focus({ direction = "right" }))
 hl.bind(mainMod .. " + K", hl.dsp.focus({ direction = "up" }))
 hl.bind(mainMod .. " + J", hl.dsp.focus({ direction = "down" }))
+
+-- Move a Window with mainMod + SHIFT + vimKeys
+hl.bind(mainMod .. " + SHIFT + H", hl.dsp.window.move({ direction = "left" }))
+hl.bind(mainMod .. " + SHIFT + L", hl.dsp.window.move({ direction = "right" }))
+hl.bind(mainMod .. " + SHIFT + K", hl.dsp.window.move({ direction = "up" }))
+hl.bind(mainMod .. " + SHIFT + J", hl.dsp.window.move({ direction = "down" }))
+hl.bind(mainMod .. " + SHIFT + TAB", hl.dsp.focus({ workspace = "-1" }))
+hl.bind(mainMod .. " + TAB", hl.dsp.focus({ workspace = "+1" }))
 
 -- Switch workspaces with mainMod + [0-9]
 -- Move active window to a workspace with mainMod + SHIFT + [0-9]
@@ -66,3 +74,19 @@ hl.bind("XF86AudioNext", hl.dsp.exec_cmd("playerctl next"), { locked = true })
 hl.bind("XF86AudioPause", hl.dsp.exec_cmd("playerctl play-pause"), { locked = true })
 hl.bind("XF86AudioPlay", hl.dsp.exec_cmd("playerctl play-pause"), { locked = true })
 hl.bind("XF86AudioPrev", hl.dsp.exec_cmd("playerctl previous"), { locked = true })
+
+hl.bind(mainMod .. "+ R", hl.dsp.submap("resize"))
+
+-- Start a submap called "resize".
+hl.define_submap("resize", function()
+
+    -- Set repeating binds for resizing the active window.
+    hl.bind("L", hl.dsp.window.resize({ x = 10, y = 0, relative = true}), { repeating = true })
+    hl.bind("H", hl.dsp.window.resize({ x = -10, y = 0, relative = true}), { repeating = true })
+    hl.bind("K", hl.dsp.window.resize({ x = 0, y = 10, relative = true}), { repeating = true })
+    hl.bind("J", hl.dsp.window.resize({ x = 0, y = -10, relative = true}), { repeating = true })
+
+    -- Use `reset` to go back to the global submap
+    hl.bind("escape", hl.dsp.submap("reset"))
+
+end)
