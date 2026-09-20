@@ -120,3 +120,5 @@ hl.window_rule({
     rounding = 0,
     border_size = 0, -- optional: removes border too if desired
 })
+
+

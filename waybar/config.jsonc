@@ -204,7 +204,7 @@
         "escape": true
     },
     "bluetooth": {
-        "on-click": "blurs",
+        "on-click": "$HOME/.cargo/bin/blurs",
         "format": " {status}",
         "format-connected": " {device_alias}",
         "format-connected-battery": " {device_alias} {device_battery_percentage}%",
