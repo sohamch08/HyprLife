@@ -1,17 +1,7 @@
 require("modules.monitor")
 require("modules.autostart")
 require("modules.binds")
-require("modules.windowrules")
--------------------------------
----- ENVIRONMENT VARIABLES ----
--------------------------------
-
--- See https://wiki.hypr.land/Configuring/Advanced-and-Cool/Environment-variables/
-
-hl.env("XCURSOR_SIZE", "24")
-hl.env("HYPRCURSOR_SIZE", "24")
-
-
+require("modules.env")
 -----------------------
 ----- PERMISSIONS -----
 -----------------------
@@ -84,6 +74,8 @@ hl.config({
         enabled = true,
     },
 })
+
+require("modules.windowrules")
 
 -- Default curves and animations, see https://wiki.hypr.land/Configuring/Advanced-and-Cool/Animations/
 hl.curve("easeOutQuint", { type = "bezier", points = { { 0.23, 1 }, { 0.32, 1 } } })

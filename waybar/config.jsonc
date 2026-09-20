@@ -6,23 +6,24 @@
     "reload_style_on_change": true,
     "modules-left": [
         "hyprland/workspaces",
-        "custom/media"
+        "custom/media",
+        "hyprland/window"
     ],
     "modules-center": [
-        "tray"
     ],
     "modules-right": [
-        "mpd",
         "pulseaudio",
         "network",
         "cpu",
         "memory",
+        "disk",
         "temperature",
         "backlight",
         "battery",
         "clock",
         "bluetooth",
-        "custom/notification"
+        "custom/notification",
+        "tray"
     ],
     // Modules configuration
     "hyprland/workspaces": {
@@ -40,6 +41,10 @@
             "focused": "",
             "default": ""
         }
+    },
+    "hyprland/window": {
+        "max-length": 40,
+        "separate-outputs": false
     },
     "keyboard-state": {
         "numlock": true,
@@ -100,6 +105,11 @@
     "memory": {
         "format": "{}% "
     },
+    "disk": {
+        "interval": 60,
+        "path": "/",
+        "format": "Disk: {free}"
+    },
     "temperature": {
         // "thermal-zone": 2,
         // "hwmon-path": "/sys/class/hwmon/hwmon2/temp1_input",
@@ -116,8 +126,8 @@
         "min-brightness": 1
     },
     "battery": {
-        // "bat": "BAT2",
-        "interval": 20,
+        "bat": "BAT0",
+        "interval": 30,
         "states": {
             "warning": 30,
             "critical": 15

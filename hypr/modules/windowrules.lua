@@ -115,3 +115,8 @@ hl.layer_rule({
     blur = true,
     ignore_alpha = 0.3,
 })
+hl.window_rule({
+    match = { fullscreen = true },
+    rounding = 0,
+    border_size = 0, -- optional: removes border too if desired
+})
