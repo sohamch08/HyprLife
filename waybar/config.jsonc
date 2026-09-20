@@ -9,7 +9,6 @@
     "margin-right": 5,
     "reload_style_on_change": true,
     "modules-left": [
-        "custom/media",
         "hyprland/window"
     ],
     "modules-center": [
@@ -181,18 +180,6 @@
             "default": ["", "", ""]
         },
         "on-click": "pavucontrol"
-    },
-    "custom/media": {
-        "format": "{icon} {text}",
-        "return-type": "json",
-        "max-length": 40,
-        "format-icons": {
-            "spotify": "",
-            "default": "🎜"
-        },
-        "escape": true,
-        "exec": "$HOME/.config/waybar/mediaplayer.py 2> /dev/null" // Script in resources folder
-        // "exec": "$HOME/.config/waybar/mediaplayer.py --player spotify 2> /dev/null" // Filter player based on name
     },
     "custom/notification": {
         "tooltip": true,
