@@ -1,15 +1,19 @@
 // -*- mode: jsonc -*-
 {
+    "layer": "bottom",
     "position": "top",
     "height": 10,
-    "spacing": 4,
+    "spacing": 8,
+    "margin-top": 5,
+    "margin-left": 5,
+    "margin-right": 5,
     "reload_style_on_change": true,
     "modules-left": [
-        "hyprland/workspaces",
         "custom/media",
         "hyprland/window"
     ],
     "modules-center": [
+        "hyprland/workspaces"
     ],
     "modules-right": [
         "pulseaudio",
@@ -40,6 +44,9 @@
             "urgent": "",
             "focused": "",
             "default": ""
+        },
+        "persistent-workspaces": {
+            "*": 5
         }
     },
     "hyprland/window": {
@@ -55,37 +62,11 @@
             "unlocked": ""
         }
     },
-    "mpd": {
-        "format": "{stateIcon} {consumeIcon}{randomIcon}{repeatIcon}{singleIcon}{artist} - {album} - {title} ({elapsedTime:%M:%S}/{totalTime:%M:%S}) ⸨{songPosition}|{queueLength}⸩ {volume}% ",
-        "format-disconnected": "Disconnected ",
-        "format-stopped": "{consumeIcon}{randomIcon}{repeatIcon}{singleIcon}Stopped ",
-        "unknown-tag": "N/A",
-        "interval": 5,
-        "consume-icons": {
-            "on": " "
-        },
-        "random-icons": {
-            "off": "<span color=\"#f53c3c\"></span> ",
-            "on": " "
-        },
-        "repeat-icons": {
-            "on": " "
-        },
-        "single-icons": {
-            "on": "1 "
-        },
-        "state-icons": {
-            "paused": "",
-            "playing": ""
-        },
-        "tooltip-format": "MPD (connected)",
-        "tooltip-format-disconnected": "MPD (disconnected)"
-    },
     "tray": {
         "icon-size": 21,
         "spacing": 10,
         "icons": {
-            "blueman": "bluetooth",
+            // "blueman": "bluetooth",
             "TelegramDesktop": "$HOME/.local/share/icons/hicolor/16x16/apps/telegram.png",
             "spotify": false
         },
@@ -94,9 +75,32 @@
         }
     },
     "clock": {
-        // "timezone": "America/New_York",
-        "tooltip-format": "<big>{:%Y %B}</big>\n<tt><small>{calendar}</small></tt>",
-        "format-alt": "{:%Y-%m-%d}"
+        "format": "{:%H:%M} ",
+        "format-alt": "{:%A, %B %d, %Y (%R)} 󰃰 ",
+        "tooltip-format": "<tt><small>{calendar}</small></tt>",
+
+        "calendar": {
+            "mode"             : "month",
+            "mode-mon-col"     : 3,
+            "weeks-pos"        : "right",
+            "first-day-of-week": 1,
+            "on-scroll"        : 1,
+            "on-click-right"   : "mode",
+            "format": {
+                "months":     "<span color='#ffead3'><b>{}</b></span>",
+                "days":       "<span color='#ecc6d9'><b>{}</b></span>",
+                "weeks":      "<span color='#99ffdd'><b>W{}</b></span>",
+                "weekdays":   "<span color='#ffcc66'><b>{}</b></span>",
+                "today":      "<span color='#ff6699'><b><u>{}</u></b></span>"
+            }
+        },
+        "actions": {
+            "on-click-right": "mode",
+            "on-click-forward": "tz_up",
+            "on-click-backward": "tz_down",
+            "on-scroll-up": "shift_up",
+            "on-scroll-down": "shift_down"
+        }
     },
     "cpu": {
         "format": "{usage}% ",
@@ -144,9 +148,16 @@
         "max-length": 25
     },
     "network": {
-        // "interface": "wlp2*", // (Optional) To force the use of this interface
-        "format-wifi": "{essid} ({signalStrength}%) ",
-        "format-ethernet": "{ipaddr}/{cidr} 󰊗",
+        "interface": "wlo1*", // (Optional) To force the use of this interface
+        "format-wifi": "{essid} ({signalStrength}%)  {icon}",
+        "format-icons": [
+            "󰤯",
+            "󰤟",
+            "󰤢",
+            "󰤥",
+            "󰤨"
+        ],
+        "format-ethernet": "{ipaddr}/{cidr} 󰈀",
         "tooltip-format": "{ifname} via {gwaddr} 󰊗",
         "format-linked": "{ifname} (No IP) 󰊗",
         "format-disconnected": "Disconnected ⚠",
@@ -163,7 +174,7 @@
         "format-icons": {
             "headphone": "",
             "hands-free": "󰂑",
-            "headset": "󰂑",
+            "headset": "",
             "phone": "",
             "portable": "",
             "car": "",
