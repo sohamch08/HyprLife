@@ -3,21 +3,28 @@
 * {
     all: unset;
     font-family: "Google Sans Flex", "Rubik", "JetBrainsMono Nerd Font Propo";
+    font-size: 16px;
+
+}
+
+window#waybar {
+    background: transparent;
 }
 
 tooltip {
-    background-color: @surface0;
+    background: @base;
+    border: 1px solid @surface1;
     color: @rosewater;
     margin: 10px;
     padding: 10px;
-    border-radius: 8px;
+    border-radius: 12px;
 }
 
-.modules-center, .modules-left, .modules-right {
-    background-color: @base;
+.modules-center,
+.modules-left,
+.modules-right {
     color: @rosewater;
-    padding: 2px 8px;
-    border-radius: 99px;
+    padding: 2px 7px;
 }
 
 #clock {
@@ -26,38 +33,74 @@ tooltip {
 
 #workspaces {
     min-width: 100px;
-    background-color: @sufrace1;
-    padding: 2px 4px;
+    background-color: @base;
+    padding: 5px 3px;
     margin: 2px 0;
-    border-radius: 99px;
+    border: 1px solid @surface0;
+    border-radius: 18px;
 }
 
 #workspaces button {
-    background-color: @surface2;
-    padding: 2px 4px;
-    border-radius: 99px;
-    margin: 0 2px;
-    transition: all 300ms ease-in-out;
+    background-color: @surface1;
+    color: @transperant;
+    padding: 0px 4px;
+    border-radius: 50px;
+    margin: 0 3px;
     min-width: 7px;
+    transition: all 0.3s ease-in-out;
+}
+
+#workspaces button label {
+    padding: 0 0 1px 0;
+}
+
+#workspaces button.active {
+    background-color: @blue;
+    color: @base;
+    min-width: 50px;
+    font-weight: 500;
+    transition: all 0.3s ease-in-out;
+    font-size: 13px;
+}
+
+#workspaces button:hover {
+    background-color: @lavender;
+    color: @rosewater;
+    border-radius: 16px;
+    min-width: 50px;
+    background-size: 400% 400%;
+}
+
+#workspaces button.urgent {
+    background-color: @mauve;
+    color: @base;
+    border-radius: 16px;
+    min-width: 50px;
+    background-size: 400% 400%;
+    transition: all 0.3s ease-in-out;
 }
 
 #workspaces button.empty {
     color: @overlay1;
 }
 
-#workspaces button.active {
-    background-color: @green;
-    color: @surface0;
-    min-width: 1.5rem;
-    font-weight: 500;
-    transition: none;
+#pulseaudio,
+#network,
+#clock,
+#temperature,
+#backlight,
+#bluetooth,
+#tray,
+#battery,
+#custom-notification {
+    background-color: @base;
+    padding: 0 15px;
+    margin: 0 0 0 0;
+    border-radius: 50px;
+    border: 1px solid @surface0;
 }
 
 #battery {
-    background-color: @surface0;
-    margin: 5px 0;
-    padding: 0 4px;
-    border-radius: 99px;
     font-weight: 500;
     color: @green;
 }
@@ -67,6 +110,38 @@ tooltip {
 }
 
 #battery.critical {
-    background-color: @red;
+    background-color: @maroon;
 }
 
+#custom-notification {
+    color: @teal;
+    font-weight: 500;
+}
+
+#pulseaudio {
+    color: @sapphire;
+}
+
+#network {
+    color: @peach;
+}
+
+#temperature {
+    color: @yellow;
+}
+
+#temparature.critical {
+    color: @red;
+}
+
+#backlight {
+    color: @mauve;
+}
+
+#bluetooth {
+    color: @subtext1;
+}
+
+#bluetooth.connected {
+    color: @blue;
+}
