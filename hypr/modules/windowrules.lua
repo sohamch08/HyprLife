@@ -121,4 +121,9 @@ hl.window_rule({
     border_size = 0, -- optional: removes border too if desired
 })
 
-
+hl.layer_rule({
+    name = "wifi-manager",
+    match = { namespace = "wifi-manager" },
+    blur = true,
+    ignore_alpha = 0.3,
+})

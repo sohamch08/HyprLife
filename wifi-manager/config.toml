@@ -1,0 +1,49 @@
+# Window position on screen.
+# Options: center, top-right, top-center, top-left,
+#          bottom-right, bottom-center, bottom-left,
+#          center-right, center-left
+position = "top-right"
+
+# Margin offsets in pixels (only effective on anchored edges).
+margin_top = 10
+margin_right = 10
+margin_bottom = 10
+margin_left = 10
+
+# Custom signal strength icons [weak, fair, good, strong]
+# Default: Nerd Fonts WiFi icons
+signal_icons = ["󰤟", "󰤢", "󰤥", "󰤨"]
+
+# Primary Control Center tile icons (GTK icon-theme names).
+wifi_icon = "network-wireless-symbolic"
+bluetooth_icon = "bluetooth-active-symbolic"
+audio_icon = "audio-volume-high-symbolic"
+power_battery_icon = "battery-symbolic"
+media_icon = "audio-x-generic-symbolic"
+system_icon = "utilities-system-monitor-symbolic"
+
+# Primary quick-control icons.
+brightness_icon = "display-brightness-symbolic"
+volume_icon = "audio-volume-high-symbolic"
+night_mode_off_icon = ""
+night_mode_on_icon = ""
+
+# Network row icons (font glyphs or other text accepted by the row widgets).
+lock_icon = "󰌾"
+saved_icon = ""
+
+# Session power actions (font glyphs).
+logout_icon = ""
+reboot_icon = ""
+suspend_icon = "󰒲"
+poweroff_icon = ""
+
+# Whether to show the panel immediately when the daemon starts (default: false)
+show_on_start = false
+
+# Last successfully applied standard charge limit (50, 60, 70, 80, 90, or 100).
+# This is written by the app after a verified change; it is not a live reading.
+# charge_limit = 80
+
+# Alternative examples:
+# signal_icons = ["▂___", "▂▄__", "▂▄▆_", "▂▄▆█"]

@@ -7,7 +7,7 @@ local clipboard = "rofi -modi 'Clipboard:/home/soham/.config/cliphist/cliphist-r
 ---------------------
 
 local mainMod = "SUPER" -- Sets "Windows" key as main modifier
-local closeWindowBind = hl.bind(mainMod .. " + Q", hl.dsp.window.close())
+local closeWindowBind = hl.bind(mainMod .. " + Q", hl.dsp.window.kill())
 
 hl.bind(mainMod .. " + PRINT", hl.dsp.exec_cmd("hyprshot -m output -m eDP-1"))
 hl.bind(mainMod .. " + SHIFT + PRINT", hl.dsp.exec_cmd("hyprshot -m region"))
