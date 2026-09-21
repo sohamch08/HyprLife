@@ -1,4 +1,4 @@
-@import "themes/catppuccin-frappe.css";
+@import "themes/catppuccin-mocha.css";
 
 * {
     all: unset;
@@ -106,11 +106,11 @@ tooltip {
 }
 
 #battery.warning {
-    background-color: @yellow;
+    color: @yellow;
 }
 
 #battery.critical {
-    background-color: @maroon;
+    color: @maroon;
 }
 
 #custom-notification {

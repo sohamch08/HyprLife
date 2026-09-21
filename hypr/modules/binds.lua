@@ -7,9 +7,12 @@ local clipboard = "rofi -modi 'Clipboard:/home/soham/.config/cliphist/cliphist-r
 ---------------------
 
 local mainMod = "SUPER" -- Sets "Windows" key as main modifier
-local closeWindowBind = hl.bind(mainMod .. " + Q", hl.dsp.window.kill())
+local closeWindowBind = hl.bind(mainMod .. " + Q", hl.dsp.window.close())
+local closeWindowBind = hl.bind(mainMod .. " + SHIFT + Q", hl.dsp.window.kill())
 
 hl.bind(mainMod .. " + PRINT", hl.dsp.exec_cmd("hyprshot -m output -m eDP-1"))
+hl.bind(mainMod .. " + W", hl.dsp.exec_cmd("skwd-wall-v2"))
+
 hl.bind(mainMod .. " + SHIFT + PRINT", hl.dsp.exec_cmd("hyprshot -m region"))
 hl.bind(mainMod .. " + RETURN", hl.dsp.exec_cmd(terminal))
 hl.bind(mainMod .. " + C", hl.dsp.exec_cmd(clipboard))
@@ -44,7 +47,7 @@ hl.bind(mainMod .. " + TAB", hl.dsp.focus({ workspace = "e+1" }))
 for i = 1, 10 do
     local key = i % 10 -- 10 maps to key 0
     hl.bind(mainMod .. " + " .. key, hl.dsp.focus({ workspace = i }))
-    hl.bind(mainMod .. " + SHIFT + " .. key, hl.dsp.window.move({ workspace = i }))
+    hl.bind(mainMod .. " + SHIFT + " .. key, hl.dsp.window.move({ workspace = i, follow = false }))
 end
 
 -- Example special workspace (scratchpad)
