@@ -1,0 +1,50 @@
+/* Same theme as launchers/type-2/launcher.sh, widened for paper names. */
+@import "../launchers/type-2/style-3.rasi"
+
+window {
+    width: 60%;
+}
+
+mainbox {
+    children: [ "inputbar", "listview" ];
+}
+
+inputbar {
+    children: [ "prompt", "entry", "textbox-paper-count" ];
+}
+
+entry {
+    expand: true;
+}
+
+textbox-paper-count {
+    expand: false;
+    str: "0/0";
+    background-color: inherit;
+    text-color: inherit;
+    vertical-align: 0.5;
+    horizontal-align: 1.0;
+}
+
+listview {
+    columns: 1;
+    lines: 14;
+}
+
+element-icon {
+    enabled: false;
+}
+
+element {
+    border-radius: 6px;
+}
+
+element selected.normal {
+    background-color: @selected;
+    text-color: @background;
+}
+
+element-text {
+    font: "Iosevka Nerd Font Propo 10";
+    vertical-align: 0.5;
+}
