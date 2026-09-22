@@ -1,5 +1,21 @@
 # My Hyprland with other things config
 
+## Tools and themes
+
+| Tool / theme | Used for | Repository |
+| --- | --- | --- |
+| hyprlock | Screen locking | [hyprwm/hyprlock](https://github.com/hyprwm/hyprlock) |
+| awww | Animated wallpapers | [LGFae/awww (Codeberg)](https://codeberg.org/LGFae/awww) · [Former GitHub repository: swww](https://github.com/LGFae/swww) |
+| hyprsunset | Blue-light filtering | [hyprwm/hyprsunset](https://github.com/hyprwm/hyprsunset) |
+| wifi-manager | Wi-Fi and network controls | [Vijay-papanaboina/wifi-manager](https://github.com/Vijay-papanaboina/wifi-manager) |
+| blurs | Bluetooth applet | [cachebag/blurs](https://github.com/cachebag/blurs) |
+| skwd-wall | Wallpaper selection and management | [liixini/skwd-wall](https://github.com/liixini/skwd-wall) |
+| fastfetch | System information in the terminal | [fastfetch-cli/fastfetch](https://github.com/fastfetch-cli/fastfetch) |
+| rofi | Application launcher and menus | [davatorium/rofi](https://github.com/davatorium/rofi) |
+| rofi-themes | Rofi launcher and power-menu themes | [adi1090x/rofi](https://github.com/adi1090x/rofi) |
+| swaync | Notifications and control center | [ErikReider/SwayNotificationCenter](https://github.com/ErikReider/SwayNotificationCenter) |
+| HyprNova | Source of the SwayNC `nova-dark` theme | [zDyant/HyprNova](https://github.com/zDyant/HyprNova) |
+
 ## External system configuration log
 
 This log records desktop-portal service changes outside HyprLife. It excludes the repository's configuration files and application source edits.
