@@ -30,7 +30,7 @@
 .floating-notifications.background .notification-row .notification-background {
   background: alpha(@background, .92);
   box-shadow: 0 0 8px 0 rgba(0,0,0,.6);
-  border: 1px solid @selected;
+  border: none;
   border-radius: 24px;
   margin: 16px;
   padding: 0;
@@ -38,11 +38,12 @@
 
 .floating-notifications.background .notification-row .notification-background .notification {
   padding: 6px;
-  border-radius: 12px;
+  border: 3px solid @selected;
+  border-radius: 24px;
 }
 
 .floating-notifications.background .notification-row .notification-background .notification.critical {
-  border: 2px solid @urgent;
+  border: 3px solid @urgent;
 }
 
 .floating-notifications.background .notification-row .notification-background .notification .notification-content {
@@ -79,6 +80,10 @@
   font-size: 1rem;
 }
 
+.notification.critical .summary {
+  color: @urgent;
+}
+
 .body {
   font-size: 0.8rem;
 }
@@ -92,7 +97,13 @@
 }
 
 .floating-notifications.background .notification-row .notification-background .close-button:hover {
-  background-color: @selected;
+  background-color: transparent;
+  color: @selected;
+}
+
+.floating-notifications.background .notification-row .notification-background .notification.critical ~ * .close-button:hover,
+.floating-notifications.background .notification-row .notification-background .notification.critical ~ * .close-button:hover image {
+  color: @urgent;
 }
 
 .floating-notifications.background .notification-row .notification-background .close-button:active {
@@ -108,4 +119,3 @@
 .notification.normal progress {
   background-color: @selected;
 }
-
