@@ -3,7 +3,7 @@
     "logo": {
         "type": "small",
         "padding": {
-            "top": 1,
+            "top": 2,
             "left": 2,
             "right": 1
         }
@@ -22,7 +22,7 @@
         {
             "format": "{#1}{#keys}╔{$1}╗\u001b[60D {user-name-colored}{at-symbol-colored}{host-name-colored} 💻 ",
             "type": "title"
-        },
+        }, 
         {
             "key": "{$2}{#31} kernel   ",
             "type": "kernel"
