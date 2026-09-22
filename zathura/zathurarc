@@ -1,0 +1,41 @@
+include themes/catppuccin-mocha
+
+set font "JetBrainsMono Nerd Font Propo"
+set database "null"
+set adjust-open "width"
+set selection-clipboard clipboard
+set pages-per-row 1
+set scroll-page-aware "true"
+
+set scroll-page-aware "true"
+set scroll-full-overlap 0.01
+set scroll-step 100
+
+set zoom-min 10
+set guioptions "sv"
+
+
+set render-loading "false"
+set scroll-step 50
+
+set statusbar-h-padding 0
+set statusbar-v-padding 0
+set page-h-padding 1
+set page-v-padding 1
+
+map i recolor
+map <C-=> zoom in
+map <C--> zoom out
+map j scroll smooth-down
+map k scroll smooth-up
+map l navigate next
+map h navigate previous
+map <C-b> mark_add
+map <C-B> feedkeys ":bmark<Return>"
+
+
+set window-title-home-tilde 1
+set statusbar-home-tilde 1
+set window-title-basename 1
+
+set database "sqlite"
