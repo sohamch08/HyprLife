@@ -97,7 +97,7 @@
       "on-discharging-critical": "notify-send -u critical 'Very Low Battery'",
       "on-charging-100": "notify-send -u normal 'Battery Full!'"
     },
-    "on-update": "sh '$HOME/.config/waybar/scripts/battery-status.sh'",
+    "on-update": "sh \"$HOME/.config/waybar/scripts/battery-status.sh\"",
     "format": "{capacity}% {icon}",
     "format-charging": "{capacity}% {icon}",
     "format-icons": {
