@@ -15,6 +15,12 @@
 | rofi-themes | Rofi launcher and power-menu themes | [adi1090x/rofi](https://github.com/adi1090x/rofi) |
 | swaync | Notifications and control center | [ErikReider/SwayNotificationCenter](https://github.com/ErikReider/SwayNotificationCenter) |
 | HyprNova | Source of the SwayNC `nova-dark` theme | [zDyant/HyprNova](https://github.com/zDyant/HyprNova) |
+| cliphist | Clipboard history | [sentriz/cliphist](https://github.com/sentriz/cliphist) |
+| Waybar | Desktop status bar | [Alexays/Waybar](https://github.com/Alexays/Waybar) |
+| Alacritty | Terminal emulator | [alacritty/alacritty](https://github.com/alacritty/alacritty) |
+| Yazi | Terminal file manager | [sxyazi/yazi](https://github.com/sxyazi/yazi) |
+| Neovim (nvim) | Text editor with my personal configuration | [sohamch08/neovim-config](https://github.com/sohamch08/neovim-config) |
+| Zsh | Shell with my personal configuration | [sohamch08/zsh](https://github.com/sohamch08/zsh) |
 
 ## External system configuration log
 
