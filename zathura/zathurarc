@@ -1,41 +1,52 @@
 include themes/catppuccin-mocha
+include binds
 
 set font "JetBrainsMono Nerd Font Propo"
-set database "null"
+
+# database backend for bookmarks/quickmarks/history ("sqlite" persists
+# them across restarts, "null" disables saving them - also stops zathura
+# from remembering per-file zoom/scroll position, which can silently
+# override adjust-open below)
+set database "sqlite"
+
+# zoom mode applied the first time a document is opened: "width" fits
+# the page to the window's width, "best-fit" fits the whole page in view
 set adjust-open "width"
+
+# copy mouse-selected text to the CLIPBOARD selection (Ctrl+v to paste),
+# instead of the default PRIMARY selection (middle-click to paste)
 set selection-clipboard clipboard
+
+# how many pages are rendered side by side in one row
 set pages-per-row 1
+# stop half/full-page scrolling from crossing a page boundary
 set scroll-page-aware "true"
 
-set scroll-page-aware "true"
+# proportion of the viewport kept visible after a full-page scroll
 set scroll-full-overlap 0.01
-set scroll-step 100
-
-set zoom-min 10
-set guioptions "sv"
-
-
-set render-loading "false"
+# pixels moved per scroll command (see also smooth-up/down binds)
 set scroll-step 50
 
+# lowest zoom percentage allowed
+set zoom-min 10
+# which GUI chrome is shown: s=statusbar, v=vertical scrollbar
+# (omitting "c" keeps the command line hidden until ':' or '/' is
+# pressed - showing it permanently steals the Tab key from toggle_index)
+set guioptions "sv"
+
+# don't flash "Loading..." text while a page renders
+set render-loading "false"
+
+# padding (px) inside the statusbar around its text
 set statusbar-h-padding 0
 set statusbar-v-padding 0
+# gap (px) between rendered pages
 set page-h-padding 1
 set page-v-padding 1
 
-map i recolor
-map <C-=> zoom in
-map <C--> zoom out
-map j scroll smooth-down
-map k scroll smooth-up
-map l navigate next
-map h navigate previous
-map <C-b> mark_add
-map <C-B> feedkeys ":bmark<Return>"
-
-
+# window title / statusbar: show only the filename, with $HOME shortened to ~
 set window-title-home-tilde 1
-set statusbar-home-tilde 1
 set window-title-basename 1
-
+set statusbar-home-tilde 1
+set statusbar-basename 1
 set database "sqlite"

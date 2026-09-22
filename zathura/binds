@@ -1,0 +1,19 @@
+# recolor / zoom
+map i recolor
+map <C-=> zoom in
+map <C--> zoom out
+
+# vim-style navigation: j/k smooth-scroll, h/l change page
+map j scroll smooth-down
+map k scroll smooth-up
+map l navigate next
+map h navigate previous
+
+# reload the document from disk
+map r reload
+
+# named bookmarks (persistent, listed via :blist) - distinct from
+# quickmarks (mark_add/mark_evaluate), which are letter-keyed and session-only
+map a focus_inputbar ":bmark "
+map b focus_inputbar ":blist "
+map d focus_inputbar ":bdelete "
