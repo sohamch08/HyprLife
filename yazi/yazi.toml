@@ -1,0 +1,33 @@
+[preview]
+max_width = 1920
+max_height = 1080
+
+[mgr]
+
+show_symlink = false
+linemode = "size"
+
+[opener]
+edit = [
+    { run = 'nvim %s', block = true, desc = "Neovim" },
+]
+open = [
+    { run = 'xdg-open %s1', orphan = true, desc = "Default application" },
+]
+
+[plugin]
+prepend_previewers = [
+    # Default json previewer not working for some reason
+    { mime = "application/{json,ndjson}", run = "code" },
+]
+[[plugin.prepend_fetchers]]
+id    = "git" # Remove if Yazi > v26.1.22
+url   = "*"
+run   = "git"
+group = "git"
+
+[[plugin.prepend_fetchers]]
+id    = "git" # Remove if Yazi > v26.1.22
+url   = "*/"
+run   = "git"
+group = "git"

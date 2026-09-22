@@ -1,0 +1,32 @@
+[mgr]
+prepend_keymap = [
+  # Quit immediately, including when background tasks are running.
+  { on = "q", run = "app:quit", desc = "Quit without confirmation" },
+
+  # Jump
+  { on = [ "i" ], run = [ "plugin easyjump" ], desc = "easyjump" },
+  { on = [ "f" ], run = [ "plugin jump-to-char" ], desc = "Jump to char" },
+  
+  # Smart enter
+  { on = [ "o" ], run = [ "open --interactive", "escape --visual --select" ], desc = "List openers for file." },
+  { on = [ "l" ], run = [ "plugin smart-enter", "escape --visual --select" ], desc = "Enter the child directory, or open file." },
+  { on = [ "L" ], run = [ 'shell --orphan -- xdg-open %s1', "escape --visual --select" ], desc = "Open in new window." },
+
+  # Archives
+  { on = [ "u" ], run = [ "shell 'punpack \"$0\"' --confirm"], desc = "Open archive" },
+
+  { on = [ "<C-n>" ], run = 'shell -- xdragon -x -T "$1"', desc = "Open file with dragon"},
+
+  { on = [ "<C-t>" ], run = "shell 'devour nautilus' --block --confirm", desc = "Open nautilus"},
+
+  { on = [ "=" ], run = """
+    shell 'printf "Mode Bits: "; read ans; chmod $ans "$@"' --block --confirm
+  """, desc = "chmod" },
+
+  { on = [ "<A-Enter>" ], run = """
+    shell '$TERMINAL -e $SHELL -c -i \"cd $PWD && ya && exec $SHELL\"' --orphan --confirm
+  """, desc = "Spawn new yazi window in CWD" },
+  { on = [ "T" ], run = "plugin max-preview -- preview" },
+  { on = [ "<C-j>" ], run = "seek 1",  desc = "Next page in preview" },
+  { on = [ "<C-k>" ], run = "seek -1", desc = "Previous page in preview" },
+]
