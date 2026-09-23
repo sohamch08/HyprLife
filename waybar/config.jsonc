@@ -9,7 +9,7 @@
   "margin-right": 4,
   "reload_style_on_change": true,
   "modules-left": ["clock", "hyprland/workspaces"],
-  "modules-center": [],
+  "modules-center": ["tray"],
   "modules-right": [
     "pulseaudio",
     "network",
@@ -17,7 +17,7 @@
     "backlight",
     "battery",
     "bluetooth",
-    "custom/notification"
+    "custom/notification",
   ],
   // Modules configuration
   "hyprland/workspaces": {
@@ -29,7 +29,7 @@
       "active": "",
       "default": "",
       "empty": "",
-      "urgent": ""
+      "urgent": "",
     },
     "persistent-workspaces": {
       "*": 5,
@@ -45,11 +45,11 @@
     "icons": {
       // "blueman": "bluetooth",
       "TelegramDesktop": "$HOME/.local/share/icons/hicolor/16x16/apps/telegram.png",
-      "spotify": false
+      "spotify": false,
     },
     "orders": {
-      "wechat": 99
-    }
+      "wechat": 99,
+    },
   },
   "clock": {
     "format": "{:%H:%M} ",
@@ -68,9 +68,9 @@
         "days": "<span color='#ecc6d9'><b>{}</b></span>",
         "weeks": "<span color='#99ffdd'><b>W{}</b></span>",
         "weekdays": "<span color='#ffcc66'><b>{}</b></span>",
-        "today": "<span color='#ff6699'><b><u>{}</u></b></span>"
-      }
-    }
+        "today": "<span color='#ff6699'><b><u>{}</u></b></span>",
+      },
+    },
   },
   "temperature": {
     // "thermal-zone": 2,
@@ -78,33 +78,33 @@
     "critical-threshold": 80,
     "format-critical": "{temperatureC}°C {icon}",
     "format": "{temperatureC}°C {icon}",
-    "format-icons": ["", "", "", "", ""]
+    "format-icons": ["", "", "", "", ""],
   },
   "backlight": {
     // "device": "acpi_video1",
     "format": "{percent}% {icon}",
     "format-icons": ["", "", "", "", "", "", "", "", ""],
-    "min-brightness": 1
+    "min-brightness": 1,
   },
   "battery": {
     "interval": 30,
     "states": {
       "warning": 30,
-      "critical": 15
+      "critical": 15,
     },
     "events": {
       "on-discharging-warning": "notify-send -u normal 'Low Battery'",
       "on-discharging-critical": "notify-send -u critical 'Very Low Battery'",
-      "on-charging-100": "notify-send -u normal 'Battery Full!'"
+      "on-charging-100": "notify-send -u normal 'Battery Full!'",
     },
     "on-update": "sh \"$HOME/.config/waybar/scripts/battery-status.sh\"",
     "format": "{capacity}% {icon}",
     "format-charging": "{capacity}% {icon}",
     "format-icons": {
       "charging": ["󰢜", "󰂆", "󰂇", "󰂈", "󰢝", "󰂉", "󰢞", "󰂊", "󰂋", "󰂃"],
-      "default": ["󱃍", "󰁺", "󰁻", "󰁼", "󰁽", "󰁾", "󰁿", "󰂀", "󰂁", "󰁹"]
+      "default": ["󱃍", "󰁺", "󰁻", "󰁼", "󰁽", "󰁾", "󰁿", "󰂀", "󰂁", "󰁹"],
     },
-    "max-length": 25
+    "max-length": 25,
   },
   "network": {
     "interface": "wlo1*", // (Optional) To force the use of this interface
@@ -115,7 +115,7 @@
     "format-linked": "{ifname} (No IP) 󰊗",
     "format-disconnected": "Disconnected ⚠",
     // "format-alt": "{ifname}: {ipaddr}/{cidr}",
-    "on-click": "wifi-manager --toggle"
+    // "on-click": "wifi-manager --toggle",
   },
   "pulseaudio": {
     // "scroll-step": 1, // %, can be a float
@@ -132,9 +132,9 @@
       "phone": "",
       "portable": "",
       "car": "",
-      "default": ["", "", ""]
+      "default": ["", "", ""],
     },
-    "on-click": "pavucontrol"
+    "on-click": "pavucontrol",
   },
   "custom/notification": {
     "tooltip": true,
@@ -147,24 +147,24 @@
       "inhibited-notification": "󰂛",
       "inhibited-none": "󰪑",
       "dnd-inhibited-notification": "󰂛",
-      "dnd-inhibited-none": "󰪑"
+      "dnd-inhibited-none": "󰪑",
     },
     "return-type": "json",
     "exec-if": "which swaync-client",
     "exec": "swaync-client -swb",
     "on-click": "swaync-client -t -sw",
     "on-click-right": "swaync-client -d -sw",
-    "escape": true
+    "escape": true,
   },
   "bluetooth": {
     "on-click": "$HOME/.cargo/bin/blurs",
     "format": " {status}",
     "format-connected": " {device_alias}",
     "format-connected-battery": " {device_alias} {device_battery_percentage}%",
-    "format-device-preference": ["device1", "device2"], 
+    "format-device-preference": ["device1", "device2"],
     "tooltip-format": "{controller_alias}\t{controller_address}\n\n{num_connections} connected",
     "tooltip-format-connected": "{controller_alias}\t{controller_address}\n\n{num_connections} connected\n\n{device_enumerate}",
     "tooltip-format-enumerate-connected": "{device_alias}\t{device_address}",
-    "tooltip-format-enumerate-connected-battery": "{device_alias}\t{device_address}\t{device_battery_percentage}%"
+    "tooltip-format-enumerate-connected-battery": "{device_alias}\t{device_address}\t{device_battery_percentage}%",
   },
 }

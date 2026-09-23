@@ -1,87 +1,86 @@
 @import "themes/catppuccin-mocha.css";
 
 * {
-    all: unset;
-    font-family: "Google Sans Flex", "Rubik", "JetBrainsMono Nerd Font Propo";
-    font-size: 16px;
-
+  all: unset;
+  font-family: "Google Sans Flex", "Rubik", "JetBrainsMono Nerd Font Propo";
+  font-size: 16px;
 }
 
 window#waybar {
-    background: transparent;
+  background: transparent;
 }
 
 tooltip {
-    background: @base;
-    border: 1px solid @surface1;
-    color: @rosewater;
-    margin: 10px;
-    padding: 10px;
-    border-radius: 12px;
+  background: @base;
+  border: 1px solid @surface1;
+  color: @rosewater;
+  margin: 10px;
+  padding: 10px;
+  border-radius: 12px;
 }
 
 .modules-center,
 .modules-left,
 .modules-right {
-    color: @rosewater;
-    padding: 2px 7px;
+  color: @rosewater;
+  padding: 2px 7px;
 }
 
 #clock {
-    font-weight: 500;
+  font-weight: 500;
 }
 
 #workspaces {
-    min-width: 100px;
-    background-color: @base;
-    padding: 5px 3px;
-    margin: 2px 0;
-    border: 1px solid @surface0;
-    border-radius: 18px;
+  min-width: 100px;
+  background-color: @base;
+  padding: 5px 3px;
+  margin: 2px 0;
+  border: 1px solid @surface0;
+  border-radius: 18px;
 }
 
 #workspaces button {
-    background-color: @surface1;
-    color: @transperant;
-    padding: 0px 4px;
-    border-radius: 50px;
-    margin: 0 3px;
-    min-width: 7px;
-    transition: all 0.3s ease-in-out;
+  background-color: @surface1;
+  color: @transperant;
+  padding: 0px 4px;
+  border-radius: 50px;
+  margin: 0 3px;
+  min-width: 7px;
+  transition: all 0.3s ease-in-out;
 }
 
 #workspaces button label {
-    padding: 0 0 1px 0;
+  padding: 0 0 1px 0;
 }
 
 #workspaces button.active {
-    background-color: @blue;
-    color: @base;
-    min-width: 50px;
-    font-weight: 500;
-    transition: all 0.3s ease-in-out;
-    font-size: 13px;
+  background-color: @blue;
+  color: @base;
+  min-width: 50px;
+  font-weight: 500;
+  transition: all 0.3s ease-in-out;
+  font-size: 13px;
 }
 
 #workspaces button:hover {
-    background-color: @lavender;
-    color: @rosewater;
-    border-radius: 16px;
-    min-width: 50px;
-    background-size: 400% 400%;
+  background-color: @lavender;
+  color: @rosewater;
+  border-radius: 16px;
+  min-width: 50px;
+  background-size: 400% 400%;
 }
 
 #workspaces button.urgent {
-    background-color: @mauve;
-    color: @base;
-    border-radius: 16px;
-    min-width: 50px;
-    background-size: 400% 400%;
-    transition: all 0.3s ease-in-out;
+  background-color: @mauve;
+  color: @base;
+  border-radius: 16px;
+  min-width: 50px;
+  background-size: 400% 400%;
+  transition: all 0.3s ease-in-out;
 }
 
 #workspaces button.empty {
-    color: @overlay1;
+  color: @overlay1;
 }
 
 #pulseaudio,
@@ -93,55 +92,77 @@ tooltip {
 #tray,
 #battery,
 #custom-notification {
-    background-color: @base;
-    padding: 0 15px;
-    margin: 0 0 0 0;
-    border-radius: 50px;
-    border: 1px solid @surface0;
+  background-color: @base;
+  padding: 0 15px;
+  margin: 0 0 0 0;
+  border-radius: 50px;
+  border: 1px solid @surface0;
+}
+
+#tray menu {
+  background-color: @base;
+  border: 1px solid @surface0;
+  border-radius: 12px;
+  padding: 6px;
+}
+
+/* Individual list items inside the menu */
+#tray menu menuitem {
+  color: @text;
+  background-color: transparent;
+  padding: 6px 12px;
+  border-radius: 6px;
+  margin: 2px 0;
+}
+
+/* Hover style for the menu items */
+#tray menu menuitem:hover {
+  background-color: @surface1;
+  color: @lavender;
 }
 
 #battery {
-    font-weight: 500;
-    color: @green;
+  font-weight: 500;
+  color: @green;
 }
 
 #battery.warning {
-    color: @yellow;
+  color: @yellow;
 }
 
 #battery.critical {
-    color: @maroon;
+  color: @maroon;
 }
 
 #custom-notification {
-    color: @teal;
-    font-weight: 500;
+  color: @teal;
+  font-weight: 500;
 }
 
 #pulseaudio {
-    color: @sapphire;
+  color: @sapphire;
 }
 
 #network {
-    color: @peach;
+  color: @peach;
 }
 
 #temperature {
-    color: @yellow;
+  color: @yellow;
 }
 
 #temparature.critical {
-    color: @red;
+  color: @red;
 }
 
 #backlight {
-    color: @mauve;
+  color: @mauve;
 }
 
 #bluetooth {
-    color: @subtext1;
+  color: @subtext1;
 }
 
 #bluetooth.connected {
-    color: @blue;
+  color: @blue;
 }
