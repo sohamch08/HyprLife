@@ -121,6 +121,19 @@ tooltip {
   color: @lavender;
 }
 
+/* ">" indicator for menu items that open a submenu (e.g. "Available networks") */
+#tray menu menuitem arrow {
+  min-width: 16px;
+  min-height: 16px;
+  margin-left: 8px;
+  opacity: 1;
+  -gtk-icon-source: url("assets/submenu-arrow.svg");
+}
+
+#tray menu menuitem:hover arrow {
+  -gtk-icon-source: url("assets/submenu-arrow-hover.svg");
+}
+
 #battery {
   font-weight: 500;
   color: @green;
