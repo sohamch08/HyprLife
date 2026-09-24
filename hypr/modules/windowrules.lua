@@ -33,6 +33,20 @@ local suppressMaximizeRule = hl.window_rule({
 })
 -- suppressMaximizeRule:set_enabled(false)
 
+-- GTK portal dialogs draw their own frame and shadow under XWayland.
+-- Avoid blurring or decorating the transparent margin around that frame.
+hl.window_rule({
+    name = "gtk-portal-client-decorations",
+    match = {
+        class = "^[Xx]dg-desktop-portal-gtk$",
+        xwayland = true,
+    },
+    no_blur = true,
+    no_shadow = true,
+    border_size = 0,
+    rounding = 0,
+})
+
 -- Keep the first window of each Obsidian process as its main window.
 -- Float subsequent windows without depending on vault or dialog titles.
 local obsidianMainWindows = {}

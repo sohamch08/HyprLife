@@ -139,6 +139,7 @@ notify_end = "on_failure"
 [commands]
 "Sync ZSH Plugins" = "cd ~/.config/zsh && sh ~/.config/zsh/zpluginsUpdate.sh"
 "Update Lazy.Nvim" = "cd ~/.config/nvim && nvim --headless '+Lazy! sync' +qa"
+"Update Atuin" = "atuin update"
 # "Python Environment" = "~/dev/.env/bin/pip install -i https://pypi.python.org/simple -U --upgrade-strategy eager jupyter"
 # "Custom command using interactive shell (unix)" = "-i vim_upgrade"
 
