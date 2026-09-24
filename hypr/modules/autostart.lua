@@ -7,6 +7,8 @@ hl.on("hyprland.start", function()
 	hl.exec_cmd("waybar")
 	hl.exec_cmd("gnome-keyring-daemon --start --components=secrets")
 	hl.exec_cmd("swaync")
+	-- Publish MPD/rmpc playback to SwayNC and other MPRIS clients.
+	hl.exec_cmd("systemctl --user start mpd-mpris.service")
 	hl.exec_cmd("hyprsunset")
 	hl.exec_cmd("wl-paste --type text --watch cliphist store")
 	hl.exec_cmd("wl-paste --type image --watch cliphist store")

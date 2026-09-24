@@ -5,65 +5,97 @@
 @define-color urgent          @color2;
 
 * {
-  color:            @text;
+  color: @text;
 
   all: unset;
   font-size: 14px;
-  font-family: "JetBrains Mono Nerd Font 10";
+  font-family: "JetBrains Mono Nerd Font Propo 10";
   transition: 200ms;
-
 }
 
 /* Avoid 'annoying' backgroud */
-.blank-window {  
-  background: transparent;  
+.blank-window {
+  background: transparent;
 }
-  
+
 /* CONTROL CENTER ------------------------------------------------------------------------ */
 
 .control-center {
-  background: alpha(@background, .92);
+  background: alpha(@background, 0.92);
   border-radius: 24px;
   border: 1px solid @selected;
-  box-shadow: 0 0 10px 0 rgba(0,0,0,.6);
+  box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.6);
   margin: 18px;
   padding: 12px;
 }
 
 /* Notifications  */
 .control-center .notification-row .notification-background,
-.control-center .notification-row .notification-background .notification.critical {
+.control-center
+  .notification-row
+  .notification-background
+  .notification.critical {
   background-color: @background-alt;
   border-radius: 16px;
   margin: 4px 0px;
   padding: 4px;
 }
 
-.control-center .notification-row .notification-background .notification.critical {
+.control-center
+  .notification-row
+  .notification-background
+  .notification.critical {
   color: @urgent;
 }
 
-.control-center .notification-row .notification-background .notification .notification-content {
+.control-center
+  .notification-row
+  .notification-background
+  .notification
+  .notification-content {
   margin: 6px;
   padding: 8px 6px 2px 2px;
 }
 
-.control-center .notification-row .notification-background .notification > *:last-child > * {
+.control-center
+  .notification-row
+  .notification-background
+  .notification
+  > *:last-child
+  > * {
   min-height: 3.4em;
 }
 
-.control-center .notification-row .notification-background .notification > *:last-child > * .notification-action {
-  background: alpha(@selected, .6);
+.control-center
+  .notification-row
+  .notification-background
+  .notification
+  > *:last-child
+  > *
+  .notification-action {
+  background: alpha(@selected, 0.6);
   color: @text;
   border-radius: 12px;
   margin: 6px;
 }
 
-.control-center .notification-row .notification-background .notification > *:last-child > * .notification-action:hover {
+.control-center
+  .notification-row
+  .notification-background
+  .notification
+  > *:last-child
+  > *
+  .notification-action:hover {
   background: @selected;
 }
 
-.control-center .notification-row .notification-background .notification > *:last-child > * .notification-action:active {
+.control-center
+  .notification-row
+  .notification-background
+  .notification
+  > *:last-child
+  > *
+  .notification-action:active {
   background-color: @selected;
 }
 
@@ -81,7 +113,10 @@
   background-color: @selected;
 }
 
-.control-center .notification-row .notification-background .close-button:active {
+.control-center
+  .notification-row
+  .notification-background
+  .close-button:active {
   background-color: @selected;
 }
 
@@ -92,14 +127,13 @@ trough {
 }
 
 progressbar {
-  background-color: rgba(255,255,255,.1);
+  background-color: rgba(255, 255, 255, 0.1);
 }
 
 /* Notifications expanded-group */
 
 .notification-group {
   margin: 2px 8px 2px 8px;
-
 }
 .notification-group-headers {
   font-weight: bold;
@@ -116,7 +150,7 @@ progressbar {
 .notification-group-close-all-button {
   background: transparent;
   color: @text;
-  margin: 4px; 
+  margin: 4px;
   border-radius: 6px;
   padding: 4px;
 }
@@ -124,11 +158,11 @@ progressbar {
 .notification-group-collapse-button:hover,
 .notification-group-close-all-button:hover {
   background: @hover;
-}  
+}
 
 /* WIDGETS --------------------------------------------------------------------------- */
 
-  /* Notification clear button */
+/* Notification clear button */
 .widget-title {
   font-size: 1.2em;
   margin: 6px;
@@ -148,7 +182,7 @@ progressbar {
   background-color: @selected;
 }
 
-  /* Do not disturb */
+/* Do not disturb */
 .widget-dnd {
   margin: 6px;
   font-size: 1.2rem;
@@ -179,7 +213,7 @@ progressbar {
   border-radius: 6px;
 }
 
-  /* Buttons menu */
+/* Buttons menu */
 .widget-buttons-grid {
   font-size: x-large;
   padding: 6px 2px;
@@ -188,41 +222,50 @@ progressbar {
   background: @background-alt;
 }
 
-.widget-buttons-grid>flowbox>flowboxchild>button {
-  margin: 4px 10px;
-  padding: 6px 12px;
+.widget-buttons-grid > flowbox > flowboxchild > button {
+  margin: 4px;
+  padding: 6px 0;
   background: transparent;
   border-radius: 8px;
 }
 
-.widget-buttons-grid>flowbox>flowboxchild>button:hover {
+.widget-buttons-grid > flowbox > flowboxchild > button > label {
+  font-family: "JetBrainsMono Nerd Font Propo";
+  font-size: 18px;
+  font-weight: normal;
+  min-width: 24px;
+  min-height: 24px;
+  margin: 0;
+  padding: 0;
+}
+
+.widget-buttons-grid > flowbox > flowboxchild > button:hover {
   background: @hover;
 }
 
-
-  /* Music player */
+/* Music player */
 .widget-mpris {
-    background: @background-alt;
-    border-radius: 16px;
-    color: @text;
-    margin:  20px 6px;
+  background: @background-alt;
+  border-radius: 16px;
+  color: @text;
+  margin: 20px 6px;
 }
 
-  /* NOTE: Background need *opacity 1* otherwise will turn into the album art blurred  */
+/* NOTE: Background need *opacity 1* otherwise will turn into the album art blurred  */
 .widget-mpris-player {
-    background-color: @background-sec;
-    border-radius: 22px;
-    padding: 6px 14px;
-    margin: 6px;
+  background-color: @background-sec;
+  border-radius: 22px;
+  padding: 6px 14px;
+  margin: 6px;
 }
 
 .widget-mpris > box > button {
   color: @text;
   border-radius: 20px;
 }
- 
+
 .widget-mpris button {
-  color: alpha(@text, .6);
+  color: alpha(@text, 0.6);
 }
 
 .widget-mpris button:hover {
@@ -232,15 +275,15 @@ progressbar {
 .widget-mpris-album-art {
   border-radius: 16px;
 }
- 
+
 .widget-mpris-title {
-    font-weight: 700;
-    font-size: 1rem;
+  font-weight: 700;
+  font-size: 1rem;
 }
- 
+
 .widget-mpris-subtitle {
-    font-weight: 500;
-    font-size: 0.8rem;
+  font-weight: 500;
+  font-size: 0.8rem;
 }
 
 picture.mpris-background {
@@ -250,8 +293,63 @@ picture.mpris-background {
 /* Volume */
 .widget-volume {
   background: @background-sec;
-  color: @background;
-  padding: 4px;
+  color: @text;
+  padding: 8px 12px;
   margin: 6px;
+  border-radius: 12px;
+}
+
+.widget-volume label,
+.widget-volume image,
+.widget-volume button {
+  color: @text;
+}
+
+.widget-volume > box > label {
+  font-family: "JetBrainsMono Nerd Font Propo";
+  font-size: 18px;
+}
+
+.widget-volume button {
+  padding: 4px;
   border-radius: 6px;
+}
+
+.widget-volume button:hover {
+  background: @hover;
+}
+
+.widget-volume scale {
+  padding: 8px 0;
+  margin: 0 12px;
+}
+
+.widget-volume scale trough {
+  min-height: 6px;
+  background: alpha(@text, 0.22);
+  border-radius: 999px;
+}
+
+.widget-volume scale highlight {
+  background: @selected;
+  border-radius: 999px;
+}
+
+.widget-volume scale slider {
+  min-width: 14px;
+  min-height: 14px;
+  margin: -4px;
+  background: @text;
+  border-radius: 999px;
+}
+
+.widget-volume scale slider:hover {
+  background: @selected;
+}
+
+.widget-volume .per-app-volume {
+  background: @background-alt;
+  border-radius: 8px;
+  margin: 8px 0 0;
+  padding: 6px;
 }

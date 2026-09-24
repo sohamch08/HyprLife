@@ -2,10 +2,10 @@
   "$schema": "/etc/xdg/swaync/configSchema.json",
   "positionX": "right",
   "positionY": "top",
-	"cssPriority": "user",
+  "cssPriority": "user",
 
   "control-center-width": 380,
-  "control-center-height": 760, 
+  "control-center-height": 760,
   "control-center-margin-top": 2,
   "control-center-margin-bottom": 2,
   "control-center-margin-right": 1,
@@ -19,7 +19,7 @@
   "timeout": 4,
   "timeout-low": 2,
   "timeout-critical": 6,
-  
+
   "fit-to-screen": false,
   "keyboard-shortcuts": true,
   "image-visibility": "when-available",
@@ -44,6 +44,7 @@
     "label",
     "buttons-grid",
     "mpris",
+    "volume",
     "title",
     "dnd",
     "notifications"
@@ -67,12 +68,13 @@
     },
     "volume": {
       "label": "󰕾",
-        "show-per-app": true
+      "show-per-app": true
     },
     "buttons-grid": {
+      "buttons-per-row": 4,
       "actions": [
         {
-          "label": " ",
+          "label": "",
           "command": "amixer set Master toggle"
         },
         {
@@ -80,18 +82,13 @@
           "command": "amixer set Capture toggle"
         },
         {
-          "label": " ",
+          "label": "",
           "command": "nm-connection-editor"
         },
         {
-          "label": "󰂯",
-          "command": "blueman-manager"
-        },
-        {
-          "label": "󰏘",
-          "command": "nwg-look"
+          "label": "",
+          "command": "$HOME/.cargo/bin/blurs"
         }
-        
       ]
     }
   }
