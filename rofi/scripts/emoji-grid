@@ -1,0 +1,10 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+rofi_dir="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")/.." && pwd)"
+distro_theme="$(python3 "$rofi_dir/scripts/picker_distro.py")"
+exec rofi -modi emoji -show emoji -display-emoji '<span size="16384">😎</span>' \
+  -emoji-mode copy -emoji-format '{emoji}' \
+  -theme "$rofi_dir/icon-grid.rasi" \
+  -theme-str "$distro_theme" \
+  -mesg 'Search by name • Enter: copy • Esc: cancel' "$@"

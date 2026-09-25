@@ -5,6 +5,7 @@ hl.on("hyprland.start", function()
 	hl.exec_cmd("nm-applet")
 	-- hl.exec_cmd("blueman-applet")
 	hl.exec_cmd("waybar")
+	hl.exec_cmd("/usr/libexec/kf6/polkit-kde-authentication-agent-1")
 	hl.exec_cmd("gnome-keyring-daemon --start --components=secrets")
 	hl.exec_cmd("swaync")
 	-- Publish MPD/rmpc playback to SwayNC and other MPRIS clients.

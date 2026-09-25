@@ -1,0 +1,76 @@
+#!/usr/bin/env python3
+"""Emoji and Material picker with the matching SVG badge for each view."""
+import json
+import os
+from pathlib import Path
+import runpy
+import subprocess
+import sys
+from picker_distro import distro_theme
+
+ROOT = Path(__file__).resolve().parents[1]
+
+
+def emoji_rows():
+    roots = [Path(os.environ.get('XDG_DATA_HOME', str(Path.home() / '.local/share')))]
+    roots += [Path(p) for p in os.environ.get('XDG_DATA_DIRS', '/usr/local/share:/usr/share').split(':')]
+    database = next((p / 'rofi-emoji/all_emojis.txt' for p in roots
+                     if (p / 'rofi-emoji/all_emojis.txt').is_file()), None)
+    if database is None:
+        raise RuntimeError('Cannot find the installed rofi-emoji/all_emojis.txt database.')
+    glyphs, rows = [], []
+    for line in database.read_text().splitlines():
+        fields = line.split('\t')
+        if len(fields) < 4:
+            continue
+        glyphs.append(fields[0])
+        rows.append(fields[3] + '\0display\x1f' + fields[0] + '\x1fmeta\x1f' + ' '.join(fields[1:]))
+    return glyphs, '\n'.join(rows) + '\n'
+
+
+def main():
+    material = runpy.run_path(str(ROOT / 'scripts/material-grid'), run_name='picker_library')
+    mode = 0 if os.environ.get('ICON_PICKER_MODE', 'emoji') == 'emoji' else 1
+    cache = {}
+    while True:
+        if mode not in cache:
+            if mode == 0:
+                cache[mode] = emoji_rows()
+            else:
+                symbols = material['load_symbols']('Material Symbols Rounded')
+                cache[mode] = ([glyph for _, glyph in symbols],
+                               material['menu_rows'](symbols, 'Material Symbols Rounded'))
+        glyphs, rows = cache[mode]
+        badge = ROOT / 'images' / ('sunglassmoji.svg' if mode == 0 else 'google-material-design-icon.svg')
+        theme = distro_theme() + '\nicon-mode { filename: ' + json.dumps(str(badge)) + '; }'
+        result = subprocess.run([
+            'rofi', '-dmenu', '-i', '-no-custom', '-markup-rows', '-format', 'i',
+            '-no-sidebar-mode', '-theme', str(ROOT / 'icon-grid.rasi'), '-theme-str', theme,
+            '-kb-mode-next', '', '-kb-mode-previous', '',
+            '-kb-custom-1', 'Control+Tab,Control+ISO_Left_Tab,Shift+Right,Shift+Left',
+            *sys.argv[1:],
+        ], input=rows, text=True, capture_output=True)
+        if result.returncode == 10:
+            mode = 1 - mode
+            continue
+        if result.returncode == 1:
+            return
+        if result.returncode != 0:
+            raise RuntimeError(result.stderr.strip() or 'Rofi could not open the picker.')
+        choice = result.stdout.strip()
+        if not choice.isdecimal() or int(choice) >= len(glyphs):
+            raise RuntimeError('Invalid picker selection.')
+        output = glyphs[int(choice)]
+        if mode == 1:
+            output = material['unicode_escape'](output)
+        subprocess.run(['wl-copy', '--type', 'text/plain;charset=utf-8'],
+                       input=output, text=True, check=True)
+        return
+
+
+if __name__ == '__main__':
+    try:
+        main()
+    except (OSError, RuntimeError, ImportError, subprocess.CalledProcessError) as error:
+        print(f'Icon picker: {error}', file=sys.stderr)
+        sys.exit(1)

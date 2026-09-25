@@ -1,0 +1,54 @@
+#!/usr/bin/env bash
+# Refresh the vendored adi1090x files, preserving locally customized files.
+set -euo pipefail
+destination="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")/.." && pwd)"
+source_repo="${1:-$HOME/projects/other-config/rofi}"
+if [[ $# == 0 && ! -d "$source_repo/.git" ]]; then
+  source_repo="$HOME/projects/other-configs/rofi"
+fi
+[[ -d "$source_repo/files" ]] || { echo "Missing upstream files: $source_repo/files" >&2; exit 1; }
+previous_head="$(git -C "$source_repo" rev-parse HEAD)"
+git -C "$source_repo" pull --ff-only
+python3 - "$source_repo" "$destination" "$previous_head" <<'PY'
+import os
+from pathlib import Path
+import shutil
+import subprocess
+import sys
+
+source, destination = map(Path, sys.argv[1:3])
+previous = sys.argv[3]
+paths = subprocess.check_output(
+    ['git', '-C', str(source), 'ls-files', '-z', '--', 'files/']
+).split(b'\0')
+copied = kept = 0
+for raw in paths:
+    if not raw:
+        continue
+    name = os.fsdecode(raw)
+    relative = Path(name).relative_to('files')
+    incoming, target = source / name, destination / relative
+    if not incoming.is_file() or incoming.is_symlink():
+        continue
+    if target.is_symlink() or (target.exists() and not target.is_file()):
+        print(f'Keep special local path: {relative}')
+        kept += 1
+        continue
+    content = incoming.read_bytes()
+    if target.exists():
+        current = target.read_bytes()
+        if current == content:
+            continue
+        baseline = subprocess.run(
+            ['git', '-C', str(source), 'show', f'{previous}:{name}'],
+            capture_output=True,
+        )
+        if baseline.returncode or current != baseline.stdout:
+            print(f'Keep local customization: {relative}')
+            kept += 1
+            continue
+    target.parent.mkdir(parents=True, exist_ok=True)
+    shutil.copy2(incoming, target)
+    copied += 1
+print(f'Updated {copied} files; preserved {kept} customized paths.')
+PY

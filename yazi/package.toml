@@ -1,6 +1,6 @@
 [[plugin.deps]]
 use = "mikavilpas/easyjump.yazi:easyjump"
-rev = "cba8168"
+rev = "b1caa3b"
 hash = "49625b69287597c3b8093c9f1a2f7241"
 
 [[plugin.deps]]

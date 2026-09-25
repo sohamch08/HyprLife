@@ -1,0 +1,106 @@
+#!/usr/bin/env python3
+"""Copy Google Material Symbols from a searchable Rofi tile grid."""
+import argparse
+import os
+import json
+from pathlib import Path
+import shutil
+import subprocess
+import sys
+from picker_distro import distro_theme
+
+
+def load_symbols(family):
+    from fontTools.ttLib import TTFont
+
+    match = subprocess.check_output(
+        ["fc-match", "-f", "%{family}\n%{file}", family], text=True
+    ).splitlines()
+    if len(match) < 2 or family.lower() not in match[0].lower():
+        raise RuntimeError(f"Install the {family} font first.")
+    # Read the installed font itself so every offered glyph can be rendered.
+    # Alias codepoints mapping to the same glyph only need one tile.
+    with TTFont(match[1]) as font:
+        glyphs = {}
+        for codepoint, name in sorted(font.getBestCmap().items()):
+            if 0xE000 <= codepoint <= 0xF8FF or 0xF0000 <= codepoint <= 0xFFFFD:
+                glyphs.setdefault(name, chr(codepoint))
+    if not glyphs:
+        raise RuntimeError(f"No icon glyphs found in {family}.")
+    return sorted(glyphs.items())
+
+
+def unicode_escape(glyph, style="rounded"):
+    mapping_path = Path.home() / ".local/share/fonts/MaterialTerminal/mapping.json"
+    try:
+        mapping = json.loads(mapping_path.read_text())
+        codepoint = mapping[style][f"{ord(glyph):X}"]
+    except (OSError, ValueError, KeyError) as error:
+        raise RuntimeError(f"No Material Terminal mapping for {style} U+{ord(glyph):04X}: {mapping_path}") from error
+    return f"\\U{codepoint:08X}"
+
+
+def menu_rows(symbols, family):
+    rows = []
+    for name, glyph in symbols:
+        display = f'<span font_desc="{family} 30">{glyph}</span>'
+        # The searchable name stays separate from the display markup.
+        rows.append(f"{name}\0display\x1f{display}\x1fmeta\x1f{name.replace('_', ' ')}\x1finfo\x1f{name}")
+    return "\n".join(rows) + "\n"
+
+
+def main():
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument("--style", choices=("rounded", "outlined", "sharp"), default="rounded")
+    parser.add_argument("--rofi-mode", action="store_true", help=argparse.SUPPRESS)
+    parser.add_argument("selection", nargs="?", help=argparse.SUPPRESS)
+    args = parser.parse_args()
+    for command in ("rofi", "wl-copy", "fc-match"):
+        if not shutil.which(command):
+            raise RuntimeError(f"Required command not found: {command}")
+    family = "Material Symbols " + args.style.title()
+    symbols = load_symbols(family)
+    if args.rofi_mode:
+        state = os.environ.get("ROFI_RETV", "0")
+        if state == "0":
+            print("\0markup-rows\x1ftrue\n\0no-custom\x1ftrue")
+            print(menu_rows(symbols, family), end="")
+        elif state == "1":
+            glyph = dict(symbols).get(os.environ.get("ROFI_INFO", ""))
+            if glyph:
+                subprocess.run(["wl-copy", "--type", "text/plain;charset=utf-8"],
+                               input=unicode_escape(glyph, args.style), text=True, check=True,
+                               stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
+        return
+    theme = Path(__file__).resolve().parents[1] / "icon-grid.rasi"
+    result = subprocess.run(
+        ["rofi", "-dmenu", "-i", "-no-custom", "-markup-rows", "-format", "i",
+         "-p", "󰦆", "-theme", str(theme),
+         "-theme-str", distro_theme() + '\nicon-mode { filename: ' + json.dumps(str(theme.parent / 'images/google-material-design-icon.svg')) + '; }',
+         "-mesg", f"{len(symbols):,} {args.style} symbols • Search by name • Enter: copy"],
+        input=menu_rows(symbols, family), text=True, capture_output=True,
+    )
+    if result.returncode == 1:  # Escape: leave the clipboard untouched.
+        return
+    if result.returncode != 0:
+        raise RuntimeError(result.stderr.strip() or "Rofi could not open the icon picker.")
+    selection = result.stdout.strip()
+    if not selection.isdecimal() or not 0 <= int(selection) < len(symbols):
+        raise RuntimeError("Rofi returned an invalid selection.")
+    subprocess.run(["wl-copy", "--type", "text/plain;charset=utf-8"],
+                   input=unicode_escape(symbols[int(selection)][1], args.style), text=True, check=True)
+
+
+if __name__ == "__main__":
+    try:
+        main()
+    except (RuntimeError, ImportError, OSError, subprocess.CalledProcessError) as error:
+        message = f"Material picker: {error}"
+        if isinstance(error, ImportError):
+            message += " (Fedora package: python3-fonttools)"
+        print(message, file=sys.stderr)
+        if "--rofi-mode" in sys.argv:
+            print("\0message\x1f" + message)
+        elif shutil.which("rofi"):
+            subprocess.run(["rofi", "-e", message])
+        sys.exit(1)

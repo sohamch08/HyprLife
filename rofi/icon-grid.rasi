@@ -1,0 +1,103 @@
+/* Applet type 4, style 3: teal image card and circular icon tiles. */
+@import "applets/type-4/style-3.rasi"
+
+* {
+  font: "JetBrainsMono Nerd Font Propo 11";
+}
+window {
+  width: 760px;
+}
+mainbox {
+  orientation: vertical;
+  children: [inputbar, searchbar, listview];
+  spacing: 16px;
+}
+inputbar {
+  children: [textbox-prompt-colon, dummy, icon-mode];
+  expand: false;
+  padding: 159px 32px;
+  background-image: url("~/.config/rofi/images/rampo-header.svg", width);
+}
+icon-mode {
+  filename: "~/.config/rofi/images/sunglassmoji.svg";
+  size: 40px;
+  expand: false;
+  padding: 10px;
+  border-radius: 30px;
+  background-color: @active;
+}
+prompt {
+  expand: false;
+  markup: true;
+  font: "JetBrainsMono Nerd Font Propo 22";
+  width: 60px;
+  padding: 10px 16px;
+  border-radius: 30px;
+  horizontal-align: 0.5;
+  vertical-align: 0.5;
+}
+textbox-prompt-colon {
+  font: "JetBrainsMono Nerd Font Propo 22";
+  width: 60px;
+  padding: 10px 0;
+  border-radius: 30px;
+  horizontal-align: 0.5;
+  vertical-align: 0.5;
+}
+sidebar {
+  orientation: horizontal;
+  expand: false;
+  spacing: 10px;
+  background-color: transparent;
+  background-image: url("~/.config/rofi/images/picker-modes.svg", both);
+}
+button {
+  font: "JetBrainsMono Nerd Font Propo 18";
+  padding: 5px;
+  border-radius: 24px;
+  background-color: #183A4340;
+  text-color: transparent;
+}
+button selected {
+  background-color: #64909460;
+  text-color: transparent;
+}
+searchbar {
+  orientation: horizontal;
+  expand: false;
+  children: [entry];
+  background-color: @background-alt;
+  border-radius: 24px;
+  padding: 10px 20px;
+}
+entry {
+  enabled: true;
+  expand: true;
+  font: "JetBrainsMono Nerd Font Propo 12";
+  padding: 0;
+  background-color: transparent;
+  text-color: @foreground;
+  placeholder: "Search icons…";
+  placeholder-color: @foreground;
+}
+listview {
+  expand: false;
+  columns: 8;
+  lines: 3;
+  flow: horizontal;
+  fixed-height: true;
+  dynamic: false;
+  spacing: 10px;
+}
+element {
+  children: [element-text];
+  padding: 16px 4px;
+}
+element-text {
+  font: "Noto Color Emoji 30";
+  horizontal-align: 0.5;
+  vertical-align: 0.5;
+}
+textbox {
+  font: "JetBrainsMono Nerd Font Propo 10";
+}
