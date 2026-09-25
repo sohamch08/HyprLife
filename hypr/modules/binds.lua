@@ -1,7 +1,8 @@
 local terminal = "alacritty"
 local fileManager = "dolphin"
 local menu = "~/.config/rofi/launchers/type-2/launcher.sh"
-local clipboard = "rofi -modi 'Clipboard:/home/soham/.config/cliphist/cliphist-rofi' -show Clipboard -theme ~/.config/rofi/launchers/type-1/style-11.rasi"
+local clipboard =
+	"rofi -modi 'Clipboard:/home/soham/.config/cliphist/cliphist-rofi' -show Clipboard -theme ~/.config/rofi/launchers/type-1/style-11.rasi"
 ---------------------
 ---- KEYBINDINGS ----
 ---------------------
@@ -12,7 +13,7 @@ local closeWindowBind = hl.bind(mainMod .. " + SHIFT + Q", hl.dsp.window.kill())
 
 hl.bind(mainMod .. " + PRINT", hl.dsp.exec_cmd("hyprshot -m output -m eDP-1"))
 hl.bind(mainMod .. " + W", hl.dsp.exec_cmd("skwd-wall-v2"))
-
+hl.bind(mainMod .. " + period", hl.dsp.exec_cmd("~/.config/rofi/scripts/icon-picker"))
 hl.bind(mainMod .. " + SHIFT + PRINT", hl.dsp.exec_cmd("hyprshot -m region"))
 hl.bind(mainMod .. " + RETURN", hl.dsp.exec_cmd(terminal))
 hl.bind(mainMod .. " + C", hl.dsp.exec_cmd(clipboard))
@@ -45,9 +46,9 @@ hl.bind(mainMod .. " + TAB", hl.dsp.focus({ workspace = "e+1" }))
 -- Switch workspaces with mainMod + [0-9]
 -- Move active window to a workspace with mainMod + SHIFT + [0-9]
 for i = 1, 10 do
-    local key = i % 10 -- 10 maps to key 0
-    hl.bind(mainMod .. " + " .. key, hl.dsp.focus({ workspace = i }))
-    hl.bind(mainMod .. " + SHIFT + " .. key, hl.dsp.window.move({ workspace = i, follow = false }))
+	local key = i % 10 -- 10 maps to key 0
+	hl.bind(mainMod .. " + " .. key, hl.dsp.focus({ workspace = i }))
+	hl.bind(mainMod .. " + SHIFT + " .. key, hl.dsp.window.move({ workspace = i, follow = false }))
 end
 
 -- Example special workspace (scratchpad)
@@ -63,14 +64,26 @@ hl.bind(mainMod .. " + mouse:272", hl.dsp.window.drag(), { mouse = true })
 hl.bind(mainMod .. " + mouse:273", hl.dsp.window.resize(), { mouse = true })
 
 -- Laptop multimedia keys for volume and LCD brightness
-hl.bind("XF86AudioRaiseVolume", hl.dsp.exec_cmd("wpctl set-volume -l 1 @DEFAULT_AUDIO_SINK@ 5%+"),
-    { locked = true, repeating = true })
-hl.bind("XF86AudioLowerVolume", hl.dsp.exec_cmd("wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%-"),
-    { locked = true, repeating = true })
-hl.bind("XF86AudioMute", hl.dsp.exec_cmd("wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle"),
-    { locked = true, repeating = true })
-hl.bind("XF86AudioMicMute", hl.dsp.exec_cmd("wpctl set-mute @DEFAULT_AUDIO_SOURCE@ toggle"),
-    { locked = true, repeating = true })
+hl.bind(
+	"XF86AudioRaiseVolume",
+	hl.dsp.exec_cmd("wpctl set-volume -l 1 @DEFAULT_AUDIO_SINK@ 5%+"),
+	{ locked = true, repeating = true }
+)
+hl.bind(
+	"XF86AudioLowerVolume",
+	hl.dsp.exec_cmd("wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%-"),
+	{ locked = true, repeating = true }
+)
+hl.bind(
+	"XF86AudioMute",
+	hl.dsp.exec_cmd("wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle"),
+	{ locked = true, repeating = true }
+)
+hl.bind(
+	"XF86AudioMicMute",
+	hl.dsp.exec_cmd("wpctl set-mute @DEFAULT_AUDIO_SOURCE@ toggle"),
+	{ locked = true, repeating = true }
+)
 hl.bind("XF86MonBrightnessUp", hl.dsp.exec_cmd("brightnessctl -e4 -n2 set 5%+"), { locked = true, repeating = true })
 hl.bind("XF86MonBrightnessDown", hl.dsp.exec_cmd("brightnessctl -e4 -n2 set 5%-"), { locked = true, repeating = true })
 
@@ -84,14 +97,12 @@ hl.bind(mainMod .. "+ R", hl.dsp.submap("resize"))
 
 -- Start a submap called "resize".
 hl.define_submap("resize", function()
+	-- Set repeating binds for resizing the active window.
+	hl.bind("L", hl.dsp.window.resize({ x = 10, y = 0, relative = true }), { repeating = true })
+	hl.bind("H", hl.dsp.window.resize({ x = -10, y = 0, relative = true }), { repeating = true })
+	hl.bind("K", hl.dsp.window.resize({ x = 0, y = 10, relative = true }), { repeating = true })
+	hl.bind("J", hl.dsp.window.resize({ x = 0, y = -10, relative = true }), { repeating = true })
 
-    -- Set repeating binds for resizing the active window.
-    hl.bind("L", hl.dsp.window.resize({ x = 10, y = 0, relative = true}), { repeating = true })
-    hl.bind("H", hl.dsp.window.resize({ x = -10, y = 0, relative = true}), { repeating = true })
-    hl.bind("K", hl.dsp.window.resize({ x = 0, y = 10, relative = true}), { repeating = true })
-    hl.bind("J", hl.dsp.window.resize({ x = 0, y = -10, relative = true}), { repeating = true })
-
-    -- Use `reset` to go back to the global submap
-    hl.bind("escape", hl.dsp.submap("reset"))
-
+	-- Use `reset` to go back to the global submap
+	hl.bind("escape", hl.dsp.submap("reset"))
 end)
