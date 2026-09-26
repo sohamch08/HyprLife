@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Emoji and Material picker with the matching SVG badge for each view."""
+"""Emoji, Material and Nerd Fonts picker with SVG header badges."""
 import json
 import os
 from pathlib import Path
@@ -9,6 +9,27 @@ import sys
 from picker_distro import distro_theme
 
 ROOT = Path(__file__).resolve().parents[1]
+NERD_FAMILY = 'JetBrainsMono Nerd Font Propo'
+BADGES = ('sunglassmoji.svg', 'google-material-design-icon.svg', 'nerd-fonts.svg')
+
+
+def nerd_symbols():
+    from fontTools.ttLib import TTFont
+
+    match = subprocess.check_output(
+        ['fc-match', '-f', '%{family}\n%{file}', NERD_FAMILY], text=True
+    ).splitlines()
+    if len(match) < 2 or NERD_FAMILY.lower() not in match[0].lower():
+        raise RuntimeError(f'Install {NERD_FAMILY} first.')
+    # Include named patched icons, including power symbols outside private use.
+    prefixes = {'cod', 'custom', 'dev', 'fa', 'fae', 'iec', 'linux', 'md',
+                'oct', 'pl', 'ple', 'pom', 'seti', 'weather'}
+    with TTFont(match[1]) as font:
+        symbols = {name: chr(cp) for cp, name in sorted(font.getBestCmap().items())
+                   if name.split('-', 1)[0] in prefixes and '-' in name}
+    if not symbols:
+        raise RuntimeError('No named Nerd Font icons found in the installed font.')
+    return sorted(symbols.items())
 
 
 def emoji_rows():
@@ -30,28 +51,41 @@ def emoji_rows():
 
 def main():
     material = runpy.run_path(str(ROOT / 'scripts/material-grid'), run_name='picker_library')
-    mode = 0 if os.environ.get('ICON_PICKER_MODE', 'emoji') == 'emoji' else 1
+    requested = os.environ.get('ICON_PICKER_MODE', 'emoji').lower()
+    mode = {'emoji': 0, 'material': 1, 'material symbols': 1, '󰦆': 1,
+            'nerd': 2, 'nerd fonts': 2}.get(requested)
+    if mode is None:
+        raise RuntimeError(f'Unknown picker mode: {requested}')
     cache = {}
     while True:
         if mode not in cache:
             if mode == 0:
                 cache[mode] = emoji_rows()
-            else:
+            elif mode == 1:
                 symbols = material['load_symbols']('Material Symbols Rounded')
                 cache[mode] = ([glyph for _, glyph in symbols],
                                material['menu_rows'](symbols, 'Material Symbols Rounded'))
+            else:
+                symbols = nerd_symbols()
+                cache[mode] = ([glyph for _, glyph in symbols],
+                               material['menu_rows'](symbols, NERD_FAMILY))
         glyphs, rows = cache[mode]
-        badge = ROOT / 'images' / ('sunglassmoji.svg' if mode == 0 else 'google-material-design-icon.svg')
+        badge = ROOT / 'images' / BADGES[mode]
         theme = distro_theme() + '\nicon-mode { filename: ' + json.dumps(str(badge)) + '; }'
+        if mode == 2:
+            theme += '\nicon-mode { size: 52px; padding: 4px; }'
+            theme += '\nelement-text { font: "JetBrainsMono Nerd Font Propo 30"; }'
+            theme += '\nelement { padding: 13px 4px; }'
         result = subprocess.run([
             'rofi', '-dmenu', '-i', '-no-custom', '-markup-rows', '-format', 'i',
             '-no-sidebar-mode', '-theme', str(ROOT / 'icon-grid.rasi'), '-theme-str', theme,
             '-kb-mode-next', '', '-kb-mode-previous', '',
-            '-kb-custom-1', 'Control+Tab,Control+ISO_Left_Tab,Shift+Right,Shift+Left',
+            '-kb-custom-1', 'Control+Tab,Shift+Right',
+            '-kb-custom-2', 'Control+ISO_Left_Tab,Control+Shift+Tab,Shift+Left',
             *sys.argv[1:],
         ], input=rows, text=True, capture_output=True)
-        if result.returncode == 10:
-            mode = 1 - mode
+        if result.returncode in (10, 11):
+            mode = (mode + (1 if result.returncode == 10 else -1)) % len(BADGES)
             continue
         if result.returncode == 1:
             return
@@ -63,6 +97,8 @@ def main():
         output = glyphs[int(choice)]
         if mode == 1:
             output = material['unicode_escape'](output)
+        elif mode == 2:
+            output = f'\\U{ord(output):08X}'
         subprocess.run(['wl-copy', '--type', 'text/plain;charset=utf-8'],
                        input=output, text=True, check=True)
         return

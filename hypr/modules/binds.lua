@@ -35,11 +35,37 @@ hl.bind(mainMod .. " + L", hl.dsp.focus({ direction = "right" }))
 hl.bind(mainMod .. " + K", hl.dsp.focus({ direction = "up" }))
 hl.bind(mainMod .. " + J", hl.dsp.focus({ direction = "down" }))
 
--- Move a Window with mainMod + SHIFT + vimKeys
-hl.bind(mainMod .. " + SHIFT + H", hl.dsp.window.move({ direction = "left" }))
-hl.bind(mainMod .. " + SHIFT + L", hl.dsp.window.move({ direction = "right" }))
-hl.bind(mainMod .. " + SHIFT + K", hl.dsp.window.move({ direction = "up" }))
-hl.bind(mainMod .. " + SHIFT + J", hl.dsp.window.move({ direction = "down" }))
+-- Preserve ordinary directional movement. When the only two tiled windows
+-- are Zoom's home and meeting windows, explicitly select the split direction.
+local function moveWindowInDirection(direction)
+    local w = hl.get_active_window()
+    if not w then return end
+    local zoomPair = w.class == "zoom" and not w.floating and w.workspace
+        and w.workspace.tiled_layout == "dwindle"
+    if zoomPair then
+        local tiledCount = 0
+        for _, candidate in ipairs(hl.get_workspace_windows(w.workspace)) do
+            if candidate.mapped and not candidate.hidden and not candidate.floating then
+                tiledCount = tiledCount + 1
+                if candidate.class ~= "zoom" then zoomPair = false end
+            end
+        end
+        zoomPair = zoomPair and tiledCount == 2
+    end
+    if zoomPair then
+        hl.dispatch(hl.dsp.layout("preselect " .. direction))
+    end
+    hl.dispatch(hl.dsp.window.move({ direction = direction, window = w }))
+    if zoomPair then
+        -- Clear an unused preselection (e.g. only one window on the workspace).
+        hl.dispatch(hl.dsp.layout("preselect none"))
+    end
+end
+for key, direction in pairs({ H = "left", L = "right", K = "up", J = "down" }) do
+    hl.bind(mainMod .. " + SHIFT + " .. key, function()
+        moveWindowInDirection(direction)
+    end)
+end
 hl.bind(mainMod .. " + SHIFT + TAB", hl.dsp.focus({ workspace = "e-1" }))
 hl.bind(mainMod .. " + TAB", hl.dsp.focus({ workspace = "e+1" }))
 

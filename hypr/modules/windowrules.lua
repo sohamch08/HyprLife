@@ -47,6 +47,57 @@ hl.window_rule({
     rounding = 0,
 })
 
+-- Zoom uses transparent XWayland windows for notifications, annotation,
+-- presenter controls and screen sharing. Tiling these creates oversized empty
+-- surfaces; compositor blur fills their otherwise transparent margins.
+hl.window_rule({
+    name = "zoom-transparent-surfaces",
+    match = { class = "^zoom$" },
+    float = true,
+    no_blur = true,
+    no_shadow = true,
+})
+
+-- Keep the normal home and meeting windows in the tiling layout. This rule
+-- follows the floating default so only auxiliary Zoom windows stay floating.
+hl.window_rule({
+    name = "zoom-main-windows",
+    match = { class = "^zoom$", title = "^(Zoom Workplace( - .*)?|Meeting)$" },
+    tile = true,
+})
+
+-- Zoom draws these frames itself; extra borders/rounding clip controls and
+-- outline the transparent surface instead of the visible content.
+hl.window_rule({
+    name = "zoom-floating-decoration",
+    match = { class = "^zoom$", float = true },
+    border_size = 0,
+    rounding = 0,
+    no_anim = true,
+})
+
+-- The interactive sharing toolbar and preview incorrectly advertise the X11
+-- TOOLTIP type. Override its input suppression for these two windows only.
+hl.window_rule({
+    name = "zoom-sharing-input",
+    match = { class = "^zoom$", title = "^as_(toolbar|preview)$" },
+    allows_input = true,
+    no_focus = false,
+    pin = true,
+})
+
+-- Hyprland's override-redirect hit test still checks the X11 TOOLTIP atom
+-- even with allows_input. Remove that hint only from the interactive controls.
+local function repairZoomSharingInput(w)
+    if w.class == "zoom" and (w.title == "as_toolbar" or w.title == "as_preview") then
+        hl.exec_cmd("python3 ~/.config/hypr/scripts/zoom-sharing-input.py")
+    end
+end
+hl.on("window.open", repairZoomSharingInput)
+for _, w in ipairs(hl.get_windows()) do
+    repairZoomSharingInput(w)
+end
+
 -- Keep the first window of each Obsidian process as its main window.
 -- Float subsequent windows without depending on vault or dialog titles.
 local obsidianMainWindows = {}

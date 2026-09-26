@@ -6,7 +6,13 @@ Open the combined picker from a terminal or a Hyprland keybinding:
 ~/.config/rofi/scripts/icon-picker
 ```
 
-Press Ctrl+Tab to switch between Emoji and Material Symbols.
+Press Ctrl+Tab to cycle through Emoji, Material Symbols, and Nerd Fonts.
+Ctrl+Shift+Tab cycles backwards. Open Nerd Fonts directly with:
+
+```sh
+ICON_PICKER_MODE=nerd ~/.config/rofi/scripts/icon-picker
+```
+
 The separate launchers are also available:
 
 ```sh
@@ -35,6 +41,12 @@ matching Material Terminal style without colliding with Nerd Font glyphs.
 For example, Rounded `person` copies `\U001044C7`. The corresponding Material
 Terminal font must be installed and included in the terminal's font fallback.
 Emoji selection still copies the emoji itself.
+
+The Nerd Fonts view reads named icons from JetBrainsMono Nerd Font Propo.
+Search by icon name or set prefix (such as `dev`, `fa`, `md`, or `linux`).
+It copies the original Nerd Font codepoint as `\UXXXXXXXX`, uses
+`images/nerd-fonts.svg` for its enlarged badge, and centers the grid using
+Nerd Font Propo metrics.
 
 Dependencies: Rofi, rofi-emoji, wl-clipboard, Noto Color Emoji, Google Material
 Symbols, fontconfig, Python 3, and fontTools (`python3-fonttools` on Fedora).
