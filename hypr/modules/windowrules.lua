@@ -66,6 +66,41 @@ hl.window_rule({
     tile = true,
 })
 
+-- The pre-meeting audio/video preview can open at only 638x152 despite its
+-- 638x510 size hints, leaving the device controls clipped.
+hl.window_rule({
+    name = "zoom-meeting-preview",
+    match = { class = "^zoom$", title = "^.*'s Zoom Meeting$" },
+    float = true,
+    size = "638 510",
+    min_size = { 638, 510 },
+    center = true,
+})
+
+-- The feedback dialog reuses "Zoom Workplace", so the main-window rule
+-- tiles it even though its visible content is only 540x340. Distinguish it
+-- from the startup window by the separate, already-open account window.
+local function configureZoomFeedback(w)
+    if w.class ~= "zoom" or w.title ~= "Zoom Workplace" then
+        return
+    end
+    for _, other in ipairs(hl.get_windows()) do
+        if other.address ~= w.address and other.class == "zoom"
+            and other.pid == w.pid and other.mapped and not other.hidden
+            and other.title:match("^Zoom Workplace %- ") then
+            hl.dispatch(hl.dsp.window.float({ action = "set", window = w }))
+            hl.dispatch(hl.dsp.window.resize({ x = 540, y = 340, relative = false, window = w }))
+            hl.dispatch(hl.dsp.window.center({ window = w }))
+            return
+        end
+    end
+end
+hl.on("window.open", configureZoomFeedback)
+hl.on("window.title", configureZoomFeedback)
+for _, w in ipairs(hl.get_windows()) do
+    configureZoomFeedback(w)
+end
+
 -- Zoom draws these frames itself; extra borders/rounding clip controls and
 -- outline the transparent surface instead of the visible content.
 hl.window_rule({
