@@ -64,6 +64,18 @@ hl.window_rule({
 	rounding = 0,
 })
 
+-- Unnamed XWayland menus (including ChatGPT's) have no app class/title and
+-- include transparent margins for their own shadow. Do not blur or decorate
+-- the outer rectangle; matching the parent app's class misses these popups.
+hl.window_rule({
+	name = "xwayland-popup-client-decorations",
+	match = { class = "^$", title = "^$", xwayland = true, float = true },
+	no_blur = true,
+	no_shadow = true,
+	border_size = 0,
+	rounding = 0,
+})
+
 -- Zoom uses transparent XWayland windows for notifications, annotation,
 -- presenter controls and screen sharing. Tiling these creates oversized empty
 -- surfaces; compositor blur fills their otherwise transparent margins.
@@ -262,4 +274,11 @@ hl.layer_rule({
 	match = { namespace = "swaync-notification-window" },
 	blur = true,
 	ignore_alpha = 0.5,
+})
+
+hl.window_rule({
+	name = "float-pavucontrol",
+	match = { class = "org.pulseaudio.pavucontrol" },
+	float = true,
+	min_size = { 900, 600 },
 })
