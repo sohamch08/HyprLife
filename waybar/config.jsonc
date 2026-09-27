@@ -44,7 +44,7 @@
     "spacing": 10,
     "icons": {
       // "blueman": "bluetooth",
-      "TelegramDesktop": "$HOME/.local/share/icons/hicolor/16x16/apps/telegram.png",
+      "TelegramDesktop": "$HOME/.local/share/icons/hicolor/32x32/apps/telegram.svg",
       "spotify": false,
     },
     "orders": {

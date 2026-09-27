@@ -11,9 +11,9 @@ window#waybar {
 }
 
 tooltip {
-  background: @base;
-  border: 1px solid @surface1;
-  color: @rosewater;
+  background: #0D0D0D;
+  border: 1px solid #271b11;
+  color: #f5af67;
   margin: 10px;
   padding: 10px;
   border-radius: 12px;
@@ -22,26 +22,22 @@ tooltip {
 .modules-center,
 .modules-left,
 .modules-right {
-  color: @rosewater;
+  color: #f5af67;
   padding: 2px 7px;
-}
-
-#clock {
-  font-weight: 500;
 }
 
 #workspaces {
   min-width: 100px;
-  background-color: @base;
+  background-color: #200b09;
   padding: 5px 3px;
   margin: 2px 0;
-  border: 1px solid @surface0;
+  border: 1px solid #481312;
   border-radius: 18px;
 }
 
 #workspaces button {
-  background-color: @surface1;
-  color: @transperant;
+  background-color: #271b11;
+  color: #f5af67;
   padding: 0px 4px;
   border-radius: 50px;
   margin: 0 3px;
@@ -54,33 +50,33 @@ tooltip {
 }
 
 #workspaces button.active {
-  background-color: @blue;
-  color: @base;
+  background-color: #D9580D;
+  color: #F5F5F5;
   min-width: 50px;
   font-weight: 500;
   transition: all 0.3s ease-in-out;
   font-size: 13px;
 }
 
+#workspaces button.empty {
+  color: #F5F5F5;
+}
+
 #workspaces button:hover {
-  background-color: @lavender;
-  color: @rosewater;
+  background-color: #f5af67;
+  color: #F5F5F5;
   border-radius: 16px;
   min-width: 50px;
   background-size: 400% 400%;
 }
 
 #workspaces button.urgent {
-  background-color: @mauve;
-  color: @base;
+  background-color: #901f21;
+  color: #F2F2F2;
   border-radius: 16px;
   min-width: 50px;
   background-size: 400% 400%;
   transition: all 0.3s ease-in-out;
-}
-
-#workspaces button.empty {
-  color: @overlay1;
 }
 
 #pulseaudio,
@@ -92,23 +88,25 @@ tooltip {
 #tray,
 #battery,
 #custom-notification {
-  background-color: @base;
+  background-color: #080303;
+  color: #080303;
+  border: 1px solid #481312;
   padding: 0 15px;
   margin: 0 0 0 0;
   border-radius: 50px;
-  border: 1px solid @surface0;
+  font-weight: 500;
 }
 
 #tray menu {
-  background-color: @base;
-  border: 1px solid @surface0;
+  background-color: #0D0D0D;
+  border: 1px solid #271b11;
   border-radius: 12px;
   padding: 6px;
 }
 
 /* Individual list items inside the menu */
 #tray menu menuitem {
-  color: @text;
+  color: #F5F5F5;
   background-color: transparent;
   padding: 6px 12px;
   border-radius: 6px;
@@ -117,8 +115,8 @@ tooltip {
 
 /* Hover style for the menu items */
 #tray menu menuitem:hover {
-  background-color: @surface1;
-  color: @lavender;
+  background-color: #271b11;
+  color: #f5af67;
 }
 
 /* ">" indicator for menu items that open a submenu (e.g. "Available networks") */
@@ -128,54 +126,87 @@ tooltip {
   margin-left: 8px;
   opacity: 1;
   -gtk-icon-source: url("assets/submenu-arrow.svg");
+  background-color: #0D0D0D;
+  color: #f5af67;
 }
 
 #tray menu menuitem:hover arrow {
   -gtk-icon-source: url("assets/submenu-arrow-hover.svg");
+  background-color: #271b11;
+  color: #f5af67;
 }
 
-#battery {
-  font-weight: 500;
-  color: @green;
-}
-
-#battery.warning {
-  color: @yellow;
-}
-
-#battery.critical {
-  color: @maroon;
-}
-
-#custom-notification {
-  color: @teal;
+#clock {
+  background-color: #481312;
+  color: #f5f5f5;
+  border: 1px solid #8C1F28;
   font-weight: 500;
 }
 
 #pulseaudio {
-  color: @sapphire;
+  background-color: #080303;
+  color: #D9580D;
+  border: 1px solid #421615;
 }
 
 #network {
-  color: @peach;
+  background-color: #080303;
+  color: #D9580D;
+  border: 1px solid #421615;
 }
 
 #temperature {
-  color: @yellow;
+  background-color: #2d0001;
+  color: #f5af67;
+  border: 1px solid #481312;
 }
 
 #temparature.critical {
-  color: @red;
+  background-color: #F2790F;
+  color: #ff8982;
+  border: 1px solid #481312;
 }
 
 #backlight {
-  color: @mauve;
+  background-color: #2d0001;
+  color: #f5af67;
+  border: 1px solid #481312;
+}
+
+#battery {
+  background-color: #410002;
+  color: #FBD4B1;
+  border: 1px solid #481312;
+  font-weight: 500;
+}
+
+#battery.warning {
+  background-color: #410002;
+  color: #FBD4B1;
+  border: 1px solid #481312;
+}
+
+#battery.critical {
+  background-color: #410002;
+  color: #FBD4B1;
+  border: 1px solid #481312;
 }
 
 #bluetooth {
-  color: @subtext1;
+  background-color: #410002;
+  color: #FBD4B1;
+  border: 1px solid #481312;
 }
 
 #bluetooth.connected {
-  color: @blue;
+  background-color: #410002;
+  color: #fe8723;
+  border: 1px solid #481312;
+}
+
+#custom-notification {
+  background-color: #080303;
+  color: #ff897d;
+  border: 1px solid #481312;
+  font-weight: 500;
 }
