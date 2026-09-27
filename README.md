@@ -43,8 +43,9 @@ starts MPD through the dependency described below. The remaining Hyprland
 autostarts (Polkit and clipboard watchers), application keybindings, and Rofi
 application launches use `uwsm app --`.
 
-Blueman's tray applet is disabled by the `Hidden=true` override in
-`autostart/blueman.desktop`, linked to `~/.config/autostart/blueman.desktop`.
+The directory `~/.config/autostart` is symlinked to this repository's `autostart`
+directory. Blueman's tray applet is disabled by the `Hidden=true` override in
+`autostart/blueman.desktop`.
 Bluetooth itself remains enabled. Remove that user override to restore the
 packaged applet autostart.
 
