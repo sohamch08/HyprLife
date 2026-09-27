@@ -22,9 +22,89 @@
 | Neovim (nvim) | Text editor with my personal configuration | [sohamch08/neovim-config](https://github.com/sohamch08/neovim-config) |
 | Zsh | Shell with my personal configuration | [sohamch08/zsh](https://github.com/sohamch08/zsh) |
 
+## UWSM session setup
+
+Use the **Hyprland (uwsm-managed)** login session. Environment settings live in
+`uwsm/env` (toolkits/XCursor) and `uwsm/env-hyprland` (Hyprland-specific settings),
+using POSIX shell `export` syntax. Link this repository's `uwsm` directory to
+`~/.config/uwsm`, just like the existing `hypr`, `rofi`, and `waybar` links.
+UWSM supplies the XDG session identity variables automatically.
+
+Enable the packaged user services once:
+
+```bash
+systemctl --user enable waybar.service swaync.service hyprsunset.service
+```
+
+These services start with the graphical session. NetworkManager uses its
+packaged XDG autostart entry; GNOME Keyring uses the display manager's
+PAM integration and D-Bus activation. The already-enabled `mpd-mpris.service`
+starts MPD through the dependency described below. The remaining Hyprland
+autostarts (Polkit and clipboard watchers), application keybindings, and Rofi
+application launches use `uwsm app --`.
+
+Blueman's tray applet is disabled by the `Hidden=true` override in
+`autostart/blueman.desktop`, linked to `~/.config/autostart/blueman.desktop`.
+Bluetooth itself remains enabled. Remove that user override to restore the
+packaged applet autostart.
+
+The power menus log out with `uwsm stop`. The bar restart shortcut restarts
+`waybar.service` and `swaync.service` through systemd. Environment edits take
+full effect at the next login; a Hyprland config reload does not reread them.
+
+References: [Hyprland environment variables](https://wiki.hypr.land/Configuring/Advanced-and-Cool/Environment-variables/),
+[UWSM session and application management](https://wiki.hypr.land/useful-utilities/uwsm/),
+and [UWSM launcher integration](https://github.com/Vladimir-csp/uwsm#3-applications-and-slices).
+
 ## External system configuration log
 
-This log records desktop-portal service changes outside HyprLife. It excludes the repository's configuration files and application source edits.
+This log records user-service changes outside HyprLife and any repository files used to reproduce them.
+
+### 2026-09-26 — UWSM migration and portal override removal
+
+Linked `~/.config/uwsm` to `/home/soham/projects/HyprLife/uwsm`, enabled the three
+desktop services above, and switched their running processes plus nm-applet to
+systemd management. Published the migrated environment to the current session
+with `uwsm finalize` and the explicit variable names, which also registers them
+for cleanup. Future sessions load the files through UWSM automatically.
+
+The active UWSM session now provides `graphical-session.target`. Backed up and
+removed the two obsolete portal overrides listed in the September 20 entry:
+
+```text
+~/.local/state/hyprlife/backups/uwsm-migration-20260926/xdg-desktop-portal.service
+~/.local/state/hyprlife/backups/uwsm-migration-20260926/xdg-desktop-portal.service.d/override.conf
+```
+
+Reloaded systemd and restarted the portal using the packaged unit, including its
+`Requisite=graphical-session.target`. Both the main and Hyprland portal services
+started successfully. Hyprland reported no configuration errors; Waybar,
+SwayNC, Hyprsunset, nm-applet, and MPD/MPRIS were active with zero restarts when
+checked. A fresh login and an actual screen-sharing session remain to be tested.
+
+### 2026-09-26 — MPD media bridge restart notifications under UWSM
+
+`mpd-mpris.service` was enabled with `Restart=always`, but the MPD server was
+inactive. The bridge failed to connect to `127.0.0.1:6600` every five seconds,
+and UWSM's `fumon` reported repeated failure/recovery notifications.
+
+Installed `systemd/user/mpd-mpris.service.d/10-mpd-dependency.conf` from this
+repository at `~/.config/systemd/user/mpd-mpris.service.d/10-mpd-dependency.conf`.
+The drop-in requires and starts `mpd.service` before the bridge, restarts only
+on failure, and limits starts to three per minute. MPD does not need separate
+enablement because the already-enabled bridge pulls it in.
+
+To apply this drop-in on an installation with the existing `mpd-mpris.service`:
+
+```bash
+install -D -m 644 systemd/user/mpd-mpris.service.d/10-mpd-dependency.conf \
+  ~/.config/systemd/user/mpd-mpris.service.d/10-mpd-dependency.conf
+systemctl --user daemon-reload
+systemctl --user reset-failed mpd-mpris.service
+systemctl --user restart mpd-mpris.service
+```
+
+To undo, remove only this drop-in and reload the user systemd manager.
 
 ### 2026-09-20 — Desktop portal startup on plain Hyprland
 

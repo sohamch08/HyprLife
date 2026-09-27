@@ -1,7 +1,6 @@
 require("modules.monitor")
 require("modules.autostart")
 require("modules.binds")
-require("modules.env")
 require("modules.decorations")
 require("modules.animations")
 require("modules.windowrules")
@@ -30,4 +29,3 @@ require("modules.input")
 
 
 -- See https://wiki.hypr.land/Configuring/Layouts/Dwindle-Layout/ for more
-

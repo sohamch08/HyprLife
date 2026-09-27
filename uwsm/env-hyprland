@@ -1,0 +1,3 @@
+# Hyprland-specific environment. UWSM supplies the XDG session variables.
+export HYPRCURSOR_SIZE=24
+export HYPRSHOT_DIR="$HOME/Pictures/Screenshots"
