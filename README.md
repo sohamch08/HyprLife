@@ -61,6 +61,39 @@ and [UWSM launcher integration](https://github.com/Vladimir-csp/uwsm#3-applicati
 
 This log records user-service changes outside HyprLife and any repository files used to reproduce them.
 
+### 2026-09-26 — Wallpaper restoration and black login window
+
+SKWD's packaged service was enabled under `default.target` and survived logout.
+Its renderer lost the old Wayland connection, leaving no wallpaper renderer in
+the next session. The drop-in at
+`systemd/user/skwd-walld.service.d/10-graphical-session.conf` ties its lifetime
+and enablement to `graphical-session.target`:
+
+```bash
+install -D -m 644 systemd/user/skwd-walld.service.d/10-graphical-session.conf \
+  ~/.config/systemd/user/skwd-walld.service.d/10-graphical-session.conf
+systemctl --user daemon-reload
+systemctl --user reenable skwd-walld.service
+systemctl --user restart skwd-walld.service
+```
+
+Applied this drop-in and moved the enablement symlink from `default.target.wants`
+to `graphical-session.target.wants`. Restarting SKWD restored the saved Hollow
+Knight image through a `skwd-paper` background layer. No separate awww daemon
+is needed for this SKWD renderer. To undo, remove the drop-in, reload systemd,
+and reenable/restart the packaged service.
+
+Added the `hide-xwayland-video-bridge` rule in `hypr/modules/windowrules.lua`,
+following the [Hyprland screen-sharing guide](https://wiki.hypr.land/useful-utilities/screen-sharing/).
+It keeps the bridge's capture helper floating, transparent, and unfocused.
+Reloaded Hyprland and restarted the bridge: its helper was invisible and the
+configuration error list was empty. A full logout/login remains to be verified.
+
+The notification panel also showed `mailsync.service` failures. Its five-minute
+timer repeatedly reached connection timeouts for `tifr.res.in:993`; independent
+TCP checks timed out over both IPv4 and IPv6. Mail configuration and its timer
+were left unchanged; server/network reachability remains unresolved.
+
 ### 2026-09-26 — UWSM migration and portal override removal
 
 Linked `~/.config/uwsm` to `/home/soham/projects/HyprLife/uwsm`, enabled the three
