@@ -42,9 +42,23 @@
   "tray": {
     "icon-size": 21,
     "spacing": 10,
+    "show-passive-items": true,
     "icons": {
+      "chatgpt": "/home/soham/.config/waybar/assets/chatgpt-tray.svg",
+      // nm-applet uses the tray theme's real signal-strength icons.
+      "claude": "/home/soham/.config/waybar/assets/tray/claude.svg",
+      "Claude": "/home/soham/.config/waybar/assets/tray/claude.svg",
+      "Claude_status_icon_1": "/home/soham/.config/waybar/assets/tray/claude.svg",
+      // Resolve tray IDs through the installed Papirus alias mappings.
+      "zoom": "/home/soham/.local/share/icons/breeze-dark/status/24/us.zoom.Zoom.svg",
+      "Zoom": "/home/soham/.local/share/icons/breeze-dark/status/24/us.zoom.Zoom.svg",
+      // Steam advertises a private IconThemePath; use the installed alias directly.
+      "steam": "/home/soham/.local/share/icons/breeze-dark/status/24/com.valvesoftware.Steam.svg",
+      "Steam": "/home/soham/.local/share/icons/breeze-dark/status/24/com.valvesoftware.Steam.svg",
+      // OBS supplies themed idle/recording/paused icons from its Flatpak data directory.
+      "KDE Connect Indicator": "kdeconnect-tray-symbolic",
       // "blueman": "bluetooth",
-      "TelegramDesktop": "$HOME/.local/share/icons/hicolor/32x32/apps/telegram.svg",
+      // "TelegramDesktop": "$HOME/.local/share/icons/hicolor/32x32/apps/telegram.svg",
       "spotify": false,
     },
     "orders": {

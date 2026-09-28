@@ -97,6 +97,11 @@ tooltip {
   font-weight: 500;
 }
 
+#tray {
+  /* Symbolic tray icons inherit this foreground color. */
+  color: #f5af67;
+}
+
 #tray menu {
   background-color: #0d0d0d;
   border: 1px solid #271b11;
@@ -210,4 +215,3 @@ tooltip {
   border: 1px solid #481312;
   font-weight: 500;
 }
-
