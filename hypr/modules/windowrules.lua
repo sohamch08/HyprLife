@@ -282,3 +282,18 @@ hl.window_rule({
 	float = true,
 	min_size = { 900, 600 },
 })
+hl.window_rule({
+	name = "alacritty-blur",
+	match = { class = "Alacritty" },
+	-- blur = true,
+	-- opacity = { "0.8", "0.8" },
+	opacity = "0.85 override 0.7 override 0.8 override",
+})
+
+hl.window_rule({
+	name = "kitty-blur",
+	match = { class = "kitty" },
+	-- blur = true,
+	-- opacity = { "0.8", "0.8" },
+	opacity = "0.85 override 0.7 override 0.8 override",
+})
