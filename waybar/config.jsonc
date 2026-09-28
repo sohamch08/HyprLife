@@ -66,7 +66,7 @@
     },
   },
   "clock": {
-    "format": "{:%H:%M} ",
+    "format": "{:%H:%M} <span font_family='Material Terminal Rounded' size='16pt' rise='-5120'>\udbd0\udd27</span>",
     "format-alt": "{:%A, %B %d, %Y (%R)} 󰃰 ",
     "tooltip-format": "<tt><small>{calendar}</small></tt>",
 
@@ -96,8 +96,8 @@
   },
   "backlight": {
     // "device": "acpi_video1",
-    "format": "{percent}% {icon}",
-    "format-icons": ["", "", "", "", "", "", "", "", ""],
+    "format": "{percent}% <span font_family='Material Terminal Rounded' size='16pt' rise='-5120'>{icon}</span>",
+    "format-icons": ["\udbd3\uddda", "\udbd0\ude4f", "\udbd0\ude50", "\udbd0\ude51", "\udbd0\ude52", "\udbd0\ude53", "\udbd0\ude54", "\udbd0\ude55"],
     "min-brightness": 1,
   },
   "battery": {
@@ -137,8 +137,8 @@
     "format-bluetooth": "{volume}% {icon} , {format_source}",
     "format-bluetooth-muted": "󰅶 {icon} , {format_source}",
     "format-muted": "󰅶 {format_source}",
-    "format-source": "{volume}% ",
-    "format-source-muted": "",
+    "format-source": "{volume}% <span font_family='Material Terminal Rounded' size='16pt' rise='-5120'>\udbd0\udc22</span>",
+    "format-source-muted": "<span font_family='Material Terminal Rounded' size='16pt' rise='-5120'>\udbd0\udc24</span>",
     "format-icons": {
       "headphone": "",
       "hands-free": "󰂑",
@@ -173,8 +173,8 @@
   "bluetooth": {
     "on-click": "$HOME/.cargo/bin/blurs",
     "format": "<span font_family='Material Terminal Rounded' size='16pt' rise='-5120'>\udbd0\udd36</span> {status}",
-    "format-off": "<span font_family='Material Terminal Rounded' size='16pt' rise='-5120'>\udbd0\udd38</span> {status}",
-    "format-disabled": "<span font_family='Material Terminal Rounded' size='16pt' rise='-5120'>\udbd0\udd38</span> {status}",
+    "format-off": "<span font_family='Material Terminal Rounded' size='16pt' rise='-5120'>\udbd0\udd38</span> dis",
+    "format-disabled": "<span font_family='Material Terminal Rounded' size='16pt' rise='-5120'>\udbd0\udd38</span> dis",
     "format-connected": "<span font_family='Material Terminal Rounded' size='16pt' rise='-5120'>\udbd0\udd37</span> {device_alias}",
     "format-connected-battery": "<span font_family='Material Terminal Rounded' size='16pt' rise='-5120'>\udbd0\udd37</span> {device_alias} {device_battery_percentage}%",
     "format-device-preference": ["device1", "device2"],
