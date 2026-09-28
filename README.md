@@ -5,6 +5,7 @@
 | Tool / theme  | Used for                                   | Repository                                                                                                                 |
 | ------------- | ------------------------------------------ | -------------------------------------------------------------------------------------------------------------------------- |
 | hyprlock      | Screen locking                             | [hyprwm/hyprlock](https://github.com/hyprwm/hyprlock)                                                                      |
+| SDDM Silent   | SDDM Login                                 | [uiriansan/SilentSDDM](https://github.com/uiriansan/SilentSDDM)                                                            |
 | awww          | Animated wallpapers                        | [LGFae/awww (Codeberg)](https://codeberg.org/LGFae/awww) · [Former GitHub repository: swww](https://github.com/LGFae/swww) |
 | hyprsunset    | Blue-light filtering                       | [hyprwm/hyprsunset](https://github.com/hyprwm/hyprsunset)                                                                  |
 | wifi-manager  | Wi-Fi and network controls                 | [Vijay-papanaboina/wifi-manager](https://github.com/Vijay-papanaboina/wifi-manager)                                        |
