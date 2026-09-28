@@ -22,6 +22,18 @@
 | Neovim (nvim) | Text editor with my personal configuration | [sohamch08/neovim-config](https://github.com/sohamch08/neovim-config) |
 | Zsh | Shell with my personal configuration | [sohamch08/zsh](https://github.com/sohamch08/zsh) |
 
+## Looks
+
+<table width="100%">
+<tr>
+<td align="center" width="25%"><img src="assets/desktop.jpeg" width="100%"><br><sub><b>Dekstop</b></sub></td>
+</tr>
+<tr>
+<td align="center" width="25%"><img src="assets/lockscreen.jpeg" width="100%"><br><sub><b>Lockscreen</b></sub></td>
+</tr>
+</table>
+
+
 ## UWSM session setup
 
 Use the **Hyprland (uwsm-managed)** login session. Environment settings live in
