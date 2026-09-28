@@ -253,9 +253,21 @@ App-local themes make named icons discoverable inside the sandbox. They do not c
 
 ### Color selection
 
-The script **does not currently offer a `--color` option**. Orange `#f5af67` is hardcoded in its recoloring logic and generated badges, while the application SVGs already contain orange fills. The CSS rule contains the same color.
+The script now offers a **`--color` option**, added after the original report at your request. It accepts three- or six-digit hex colors, with or without `#`, and defaults to the original `#f5af67`.
 
-Changing only one hardcoded value would not recolor the entire setup. A consistent configurable color would need to update the generated network artwork, copied application assets, badge colors, and symbolic-icon CSS together.
+```bash
+# Generate only, without changing the installed themes:
+python3 /home/soham/projects/HyprLife/waybar/scripts/install-tray-theme.py /tmp/my-tray-theme --color '#89b4fa'
+
+# Install into the host theme and supported existing Flatpak profiles:
+python3 /home/soham/projects/HyprLife/waybar/scripts/install-tray-theme.py --color '#89b4fa'
+```
+
+Every generated network and application SVG uses the selected foreground, including aliases, connection states, lock symbols, and OBS badges. Dark badge backings and opacity are preserved. ChatGPT is now included as `status/24/chatgpt-tray.svg`, increasing the host SVG count from 1,128 to 1,129 with the same installed source packages. Invalid colors are rejected before any files are written. An explicit destination suppresses Flatpak installation regardless of other options.
+
+The generator does not overwrite repository source artwork or edit Waybar CSS/configuration. To match the entire running tray, separately set the `#tray` CSS foreground and point the existing ChatGPT/Claude file overrides to the generated files in `~/.local/share/icons/breeze-dark/status/24/` using absolute paths. Zoom and Steam already reference the generated aliases. Restart Waybar and affected apps afterward.
+
+Validation of this addition generated all 1,129 SVGs in temporary directories with a custom six-digit color, a short hex color, and the default orange. Every SVG parsed and contained only the chosen foreground plus any preserved dark badge backing. Flatpak alias/state generation was checked against temporary app profiles. No installed theme was recolored during those tests.
 
 ## 9. Papirus aliases from your pasted listing
 

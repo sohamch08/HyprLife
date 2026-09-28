@@ -1,6 +1,34 @@
-# Orange tray icons
+# Configurable tray icons
 
 Foreground: `#f5af67`, matching `#tray` in `waybar/style.css`.
+
+Choose another foreground with `--color`; quote colors beginning with `#`.
+Both `#RGB` and `#RRGGBB` are accepted, with or without the leading `#`.
+Omitting the option keeps the original orange default.
+
+```sh
+# Generate SVGs in a separate folder without installing or changing the desktop.
+python3 ~/.config/waybar/scripts/install-tray-theme.py /tmp/my-tray-theme --color '#89b4fa'
+
+# Install that color into the host overlay and existing supported Flatpak profiles.
+python3 ~/.config/waybar/scripts/install-tray-theme.py --color '#89b4fa'
+```
+
+An explicit destination always generates only there, even with `--color`.
+The destination must be absent or already marked by this generator.
+Generated app icons are in `status/24/`, including `chatgpt-tray.svg`, `claude.svg`,
+`zoom.svg`, Steam, and all three OBS states. Network states are in `status/16/`,
+`status/22/`, and `status/24/`. Aliases, lock strokes, and pause symbols use the
+selected color; dark badge backings, opacity, geometry, and transparent fills
+are preserved. Source SVG files in this repository are not overwritten.
+
+Changing generated SVG colors does not edit Waybar CSS or configuration.
+For a matching live tray, also set the `#tray` foreground in `waybar/style.css`.
+The current ChatGPT and Claude overrides point to repository source assets;
+point those entries in `waybar/config.jsonc` at the generated
+`~/.local/share/icons/breeze-dark/status/24/chatgpt-tray.svg` and `claude.svg`
+(using full absolute paths). Zoom and Steam already use generated alias paths.
+Restart Waybar and the affected applications to clear cached icons.
 
 Install the icon-theme overlay after linking the Waybar configuration:
 
