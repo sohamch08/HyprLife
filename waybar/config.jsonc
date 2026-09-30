@@ -42,7 +42,7 @@
   "tray": {
     "icon-size": 21,
     "spacing": 10,
-    "show-passive-items": true,
+    "show-passive-items": false,
     "icons": {
       "chatgpt": "/home/soham/.config/waybar/assets/chatgpt-tray.svg",
       // nm-applet uses the tray theme's real signal-strength icons.

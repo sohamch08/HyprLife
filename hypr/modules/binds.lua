@@ -38,33 +38,36 @@ hl.bind(mainMod .. " + J", hl.dsp.focus({ direction = "down" }))
 -- Preserve ordinary directional movement. When the only two tiled windows
 -- are Zoom's home and meeting windows, explicitly select the split direction.
 local function moveWindowInDirection(direction)
-    local w = hl.get_active_window()
-    if not w then return end
-    local zoomPair = w.class == "zoom" and not w.floating and w.workspace
-        and w.workspace.tiled_layout == "dwindle"
-    if zoomPair then
-        local tiledCount = 0
-        for _, candidate in ipairs(hl.get_workspace_windows(w.workspace)) do
-            if candidate.mapped and not candidate.hidden and not candidate.floating then
-                tiledCount = tiledCount + 1
-                if candidate.class ~= "zoom" then zoomPair = false end
-            end
-        end
-        zoomPair = zoomPair and tiledCount == 2
-    end
-    if zoomPair then
-        hl.dispatch(hl.dsp.layout("preselect " .. direction))
-    end
-    hl.dispatch(hl.dsp.window.move({ direction = direction, window = w }))
-    if zoomPair then
-        -- Clear an unused preselection (e.g. only one window on the workspace).
-        hl.dispatch(hl.dsp.layout("preselect none"))
-    end
+	local w = hl.get_active_window()
+	if not w then
+		return
+	end
+	local zoomPair = w.class == "zoom" and not w.floating and w.workspace and w.workspace.tiled_layout == "dwindle"
+	if zoomPair then
+		local tiledCount = 0
+		for _, candidate in ipairs(hl.get_workspace_windows(w.workspace)) do
+			if candidate.mapped and not candidate.hidden and not candidate.floating then
+				tiledCount = tiledCount + 1
+				if candidate.class ~= "zoom" then
+					zoomPair = false
+				end
+			end
+		end
+		zoomPair = zoomPair and tiledCount == 2
+	end
+	if zoomPair then
+		hl.dispatch(hl.dsp.layout("preselect " .. direction))
+	end
+	hl.dispatch(hl.dsp.window.move({ direction = direction, window = w }))
+	if zoomPair then
+		-- Clear an unused preselection (e.g. only one window on the workspace).
+		hl.dispatch(hl.dsp.layout("preselect none"))
+	end
 end
 for key, direction in pairs({ H = "left", L = "right", K = "up", J = "down" }) do
-    hl.bind(mainMod .. " + SHIFT + " .. key, function()
-        moveWindowInDirection(direction)
-    end)
+	hl.bind(mainMod .. " + SHIFT + " .. key, function()
+		moveWindowInDirection(direction)
+	end)
 end
 hl.bind(mainMod .. " + SHIFT + TAB", hl.dsp.focus({ workspace = "e-1" }))
 hl.bind(mainMod .. " + TAB", hl.dsp.focus({ workspace = "e+1" }))
@@ -110,8 +113,8 @@ hl.bind(
 	hl.dsp.exec_cmd("wpctl set-mute @DEFAULT_AUDIO_SOURCE@ toggle"),
 	{ locked = true, repeating = true }
 )
-hl.bind("XF86MonBrightnessUp", hl.dsp.exec_cmd("brightnessctl -e4 -n2 set 5%+"), { locked = true, repeating = true })
-hl.bind("XF86MonBrightnessDown", hl.dsp.exec_cmd("brightnessctl -e4 -n2 set 5%-"), { locked = true, repeating = true })
+hl.bind("XF86MonBrightnessUp", hl.dsp.exec_cmd("brightnessctl -n2 set 5%+"), { locked = true, repeating = true })
+hl.bind("XF86MonBrightnessDown", hl.dsp.exec_cmd("brightnessctl -n2 set 5%-"), { locked = true, repeating = true })
 
 -- Requires playerctl
 hl.bind("XF86AudioNext", hl.dsp.exec_cmd("playerctl next"), { locked = true })

@@ -1,0 +1,11 @@
+[Unit]
+Description=Route Tailscale IPv4 devices before the TIFR VPN default route
+After=network.target tailscaled.service strongswan.service
+
+[Service]
+Type=oneshot
+ExecStart=/usr/local/libexec/tifr-tailscale-route
+RemainAfterExit=yes
+
+[Install]
+WantedBy=multi-user.target
