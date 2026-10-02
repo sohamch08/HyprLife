@@ -16,12 +16,13 @@
     "temperature",
     "backlight",
     "battery",
-    "bluetooth",
+    "custom/bluetooth",
     "custom/notification",
   ],
   // Modules configuration
   "hyprland/workspaces": {
-    "disable-scroll": true,
+    "disable-scroll": false,
+    "on-click": "activate",
     "all-outputs": true,
     "warp-on-scroll": false,
     "format": "{icon}",
@@ -97,7 +98,16 @@
   "backlight": {
     // "device": "acpi_video1",
     "format": "{percent}% <span font_family='Material Terminal Rounded' size='16pt' rise='-5120'>{icon}</span>",
-    "format-icons": ["\udbd3\uddda", "\udbd0\ude4f", "\udbd0\ude50", "\udbd0\ude51", "\udbd0\ude52", "\udbd0\ude53", "\udbd0\ude54", "\udbd0\ude55"],
+    "format-icons": [
+      "\udbd3\uddda",
+      "\udbd0\ude4f",
+      "\udbd0\ude50",
+      "\udbd0\ude51",
+      "\udbd0\ude52",
+      "\udbd0\ude53",
+      "\udbd0\ude54",
+      "\udbd0\ude55",
+    ],
     "min-brightness": 1,
   },
   "battery": {
@@ -116,7 +126,16 @@
     "format-charging": "{capacity}% {icon}",
     "format-icons": {
       "charging": ["󰢜", "󰂆", "󰂇", "󰂈", "󰢝", "󰂉", "󰢞", "󰂊", "󰂋", "󰂃"],
-      "default": ["\udbd2\udf36", "\udbd2\udf3c", "\udbd2\udf3b", "\udbd2\udf3a", "\udbd2\udf39", "\udbd2\udf38", "\udbd2\udf37", "\udbd2\udf34"],
+      "default": [
+        "\udbd2\udf36",
+        "\udbd2\udf3c",
+        "\udbd2\udf3b",
+        "\udbd2\udf3a",
+        "\udbd2\udf39",
+        "\udbd2\udf38",
+        "\udbd2\udf37",
+        "\udbd2\udf34",
+      ],
     },
     "max-length": 25,
   },
@@ -170,17 +189,12 @@
     "on-click-right": "swaync-client -d -sw",
     "escape": true,
   },
-  "bluetooth": {
+  "custom/bluetooth": {
+    "exec": "python3 $HOME/.config/waybar/scripts/bluetooth-status.py",
+    "return-type": "json",
+    "interval": 3,
+    "format": "{}",
     "on-click": "$HOME/.cargo/bin/blurs",
-    "format": "<span font_family='Material Terminal Rounded' size='16pt' rise='-5120'>\udbd0\udd36</span> {status}",
-    "format-off": "<span font_family='Material Terminal Rounded' size='16pt' rise='-5120'>\udbd0\udd38</span> dis",
-    "format-disabled": "<span font_family='Material Terminal Rounded' size='16pt' rise='-5120'>\udbd0\udd38</span> dis",
-    "format-connected": "<span font_family='Material Terminal Rounded' size='16pt' rise='-5120'>\udbd0\udd37</span> {device_alias}",
-    "format-connected-battery": "<span font_family='Material Terminal Rounded' size='16pt' rise='-5120'>\udbd0\udd37</span> {device_alias} {device_battery_percentage}%",
-    "format-device-preference": ["device1", "device2"],
-    "tooltip-format": "{controller_alias}\t{controller_address}\n\n{num_connections} connected",
-    "tooltip-format-connected": "{controller_alias}\t{controller_address}\n\n{num_connections} connected\n\n{device_enumerate}",
-    "tooltip-format-enumerate-connected": "{device_alias}\t{device_address}",
-    "tooltip-format-enumerate-connected-battery": "{device_alias}\t{device_address}\t{device_battery_percentage}%"
-  }
+    "tooltip": true,
+  },
 }

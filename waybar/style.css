@@ -84,7 +84,7 @@ tooltip {
 #clock,
 #temperature,
 #backlight,
-#bluetooth,
+#custom-bluetooth,
 #tray,
 #battery,
 #custom-notification {
@@ -197,13 +197,13 @@ tooltip {
   border: 1px solid #481312;
 }
 
-#bluetooth {
+#custom-bluetooth {
   background-color: #410002;
   color: #fbd4b1;
   border: 1px solid #481312;
 }
 
-#bluetooth.connected {
+#custom-bluetooth.connected {
   background-color: #410002;
   color: #fe8723;
   border: 1px solid #481312;
