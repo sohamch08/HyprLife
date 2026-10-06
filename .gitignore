@@ -4,3 +4,4 @@ __pycache__
 .codex
 .agents
 images/
+monitors.conf

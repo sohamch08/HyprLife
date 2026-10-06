@@ -21,7 +21,9 @@
   ],
   // Modules configuration
   "hyprland/workspaces": {
-    "disable-scroll": false,
+    "disable-scroll": true,
+    "on-scroll-up": "hyprctl dispatch 'hl.dsp.focus({ workspace = \"e+1\" })'",
+    "on-scroll-down": "hyprctl dispatch 'hl.dsp.focus({ workspace = \"e-1\" })'",
     "on-click": "activate",
     "all-outputs": true,
     "warp-on-scroll": false,
@@ -36,6 +38,18 @@
       "*": 5,
     },
   },
+  // "ext/workspaces": {
+  //   //    "on-scroll-up": "hyprctl dispatch 'hl.dsp.focus({ workspace = \"e+1\" })'",
+  //   //"on-scroll-down": "hyprctl dispatch 'hl.dsp.focus({ workspace = \"e-1\" })'",
+  //   "on-click": "activate",
+  //   "all-outputs": true,
+  //   "active-only": false,
+  //   "sort-by-name": true,
+  //   "format": "{icon}",
+  //   "format-icons": {
+  //     "active": "",
+  //     "default": "",
+  // },
   "hyprland/window": {
     "max-length": 40,
     "separate-outputs": false,
