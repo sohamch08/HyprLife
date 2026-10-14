@@ -297,3 +297,15 @@ hl.window_rule({
 	-- opacity = { "0.8", "0.8" },
 	opacity = "0.85 override 0.7 override 0.8 override",
 })
+
+hl.window_rule({
+	name = "popup-file-manager-float",
+	match = { class = "^xdg-desktop-portal-gtk$" },
+	float = true,
+})
+
+hl.window_rule({
+	name = "Matplotlib-window-float",
+	match = { class = "^Matplotlib$" },
+	float = true,
+})
