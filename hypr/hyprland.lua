@@ -4,6 +4,7 @@ require("modules.binds")
 require("modules.decorations")
 require("modules.animations")
 require("modules.windowrules")
+require("modules.zoomrules")
 require("modules.layout")
 require("modules.input")
 -----------------------
