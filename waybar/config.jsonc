@@ -166,12 +166,12 @@
   },
   "pulseaudio": {
     // "scroll-step": 1, // %, can be a float
-    "format": "{volume}% {icon}, {format_source}",
-    "format-bluetooth": "{volume}% {icon} , {format_source}",
-    "format-bluetooth-muted": "󰅶 {icon} , {format_source}",
+    "format": "{volume}% {icon}",
+    "format-bluetooth": "{volume}% {icon} ",
+    "format-bluetooth-muted": "󰅶 {icon} ",
     "format-muted": "󰅶 {format_source}",
-    "format-source": "{volume}% <span font_family='Material Terminal Rounded' size='16pt' rise='-5120'>\udbd0\udc22</span>",
-    "format-source-muted": "<span font_family='Material Terminal Rounded' size='16pt' rise='-5120'>\udbd0\udc24</span>",
+    // "format-source": "{volume}% <span font_family='Material Terminal Rounded' size='16pt' rise='-5120'>\udbd0\udc22</span>",
+    // "format-source-muted": "<span font_family='Material Terminal Rounded' size='16pt' rise='-5120'>\udbd0\udc24</span>",
     "format-icons": {
       "headphone": "",
       "hands-free": "󰂑",
