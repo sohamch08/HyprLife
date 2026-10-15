@@ -33,7 +33,7 @@ no_retry = true
 cleanup = true
 
 # Send a notification for every step (default: false)
-notify_each_step = true
+# notify_each_step = true
 
 # When to send a notification at the end of a run
 # (default: "always", allowed values: "always", "never", "on_failure")

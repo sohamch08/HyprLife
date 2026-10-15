@@ -20,6 +20,14 @@ hl.window_rule({
 	tile = true,
 })
 
+-- The home window gains its account title after the opening rules have run.
+local function tileZoomHome(w)
+	if w.class == "zoom" and w.mapped and w.floating
+		and w.initial_title == "Zoom Workplace" and w.title:match("^Zoom Workplace %- ") then
+		hl.dispatch(hl.dsp.window.float({ action = "unset", window = w }))
+	end
+end
+
 -- The pre-meeting audio/video preview can open at only 638x152 despite its
 -- 638x510 size hints, leaving the device controls clipped.
 hl.window_rule({
@@ -180,11 +188,15 @@ end, { timeout = 100, type = "repeat" })
 timer:set_enabled(false)
 
 hl.on("window.open", function(w) inspect(w, true) end)
-hl.on("window.title", function(w) inspect(w, false) end)
+hl.on("window.title", function(w)
+	tileZoomHome(w)
+	inspect(w, false)
+end)
 hl.on("window.close", function(w)
 	pending[w.address], popups[w.address] = nil, nil
 end)
 for _, w in ipairs(hl.get_windows()) do
+	tileZoomHome(w)
 	inspect(w, false)
 end
 

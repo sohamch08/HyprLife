@@ -1,24 +1,27 @@
-# Alacritty configuration (TOML format)
 [window]
 dimensions = { columns = 140, lines = 30 }
 
+[window.padding]
+y = 6
+x = 6
+
 [font]
-size = 16
+size = 14
 
 [font.normal]
-family = "Iosevka Nerd Font Mono"
+family = "Maple Mono Normal NF"
 style = "Regular"
 
 [font.bold]
-family = "Iosevka Nerd Font Mono"
+family = "Maple Mono Normal NF"
 style = "Bold"
 
 [font.italic]
-family = "Iosevka Nerd Font Mono"
+family = "Maple Mono Normal NF"
 style = "Italic"
 
 [font.bold_italic]
-family = "Iosevka Nerd Font Mono"
+family = "Maple Mono Normal NF"
 style = "Bold Italic"
 
 [font.offset]
@@ -26,15 +29,15 @@ x = 0
 y = 0
 
 [cursor]
+blink_interval = 750
 [cursor.style]
 shape = "Block"
-blinking = "Off"
+blinking = "Always"
 
 [cursor.vi_mode_style]
 shape = "Block"
+blinking = "Always"
 
 
 [general]
-import = [
-    "~/.config/alacritty/themes/themes/tokyo_night.toml"
-]
+import = ["~/.config/alacritty/catppuccin_mocha.toml"]
