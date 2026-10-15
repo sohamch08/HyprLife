@@ -35,32 +35,28 @@ hl.bind(mainMod .. " + L", hl.dsp.focus({ direction = "right" }))
 hl.bind(mainMod .. " + K", hl.dsp.focus({ direction = "up" }))
 hl.bind(mainMod .. " + J", hl.dsp.focus({ direction = "down" }))
 
--- Preserve ordinary directional movement. When the only two tiled windows
--- are Zoom's home and meeting windows, explicitly select the split direction.
+-- Let directional movement change the split when there are exactly two tiles.
 local function moveWindowInDirection(direction)
 	local w = hl.get_active_window()
 	if not w then
 		return
 	end
-	local zoomPair = w.class == "zoom" and not w.floating and w.workspace and w.workspace.tiled_layout == "dwindle"
-	if zoomPair then
+	local tilePair = not w.floating and w.workspace and w.workspace.tiled_layout == "dwindle"
+	if tilePair then
 		local tiledCount = 0
 		for _, candidate in ipairs(hl.get_workspace_windows(w.workspace)) do
 			if candidate.mapped and not candidate.hidden and not candidate.floating then
 				tiledCount = tiledCount + 1
-				if candidate.class ~= "zoom" then
-					zoomPair = false
-				end
 			end
 		end
-		zoomPair = zoomPair and tiledCount == 2
+		tilePair = tiledCount == 2
 	end
-	if zoomPair then
+	if tilePair then
 		hl.dispatch(hl.dsp.layout("preselect " .. direction))
 	end
 	hl.dispatch(hl.dsp.window.move({ direction = direction, window = w }))
-	if zoomPair then
-		-- Clear an unused preselection (e.g. only one window on the workspace).
+	if tilePair then
+		-- Keep the next new window from inheriting this direction.
 		hl.dispatch(hl.dsp.layout("preselect none"))
 	end
 end
