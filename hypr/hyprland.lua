@@ -1,34 +1,35 @@
-require("modules.monitor")
-require("modules.autostart")
-require("modules.binds")
-require("modules.decorations")
-require("modules.animations")
-require("modules.windowrules")
-require("modules.zoomrules")
-require("modules.layout")
-require("modules.input")
------------------------
------ PERMISSIONS -----
------------------------
+-- Locate Hyprland modules directory
+local modules = os.getenv("HOME") .. "/.config/hypr/modules"
 
--- See https://wiki.hypr.land/Configuring/Advanced-and-Cool/Permissions/
--- Please note permission changes here require a Hyprland restart and are not applied on-the-fly
--- for security reasons
+-- Quote text safely for the shell
+local function shellQuote(value)
+	return "'" .. value:gsub("'", "'\\''") .. "'"
+end
 
--- hl.config({
---   ecosystem = {
---     enforce_permissions = true,
---   },
--- })
+-- Display errors through SwayNC
+local function warn(message)
+	hl.exec_cmd(
+		"notify-send -a hypr-autoload -u normal -t 8000 -- "
+			.. shellQuote("Hyprland configuration error")
+			.. " "
+			.. shellQuote(message)
+	)
+end
 
--- hl.permission("/usr/(bin|local/bin)/grim", "screencopy", "allow")
--- hl.permission("/usr/(lib|libexec|lib64)/xdg-desktop-portal-hyprland", "screencopy", "allow")
--- hl.permission("/usr/(bin|local/bin)/hyprpm", "plugin", "allow")
+-- Get all Lua files, one path per line, in alphabetical order
+local pipe, err = io.popen("find -L " .. shellQuote(modules) .. " -type f -name '*.lua' -print | sort")
 
--- Default curves and animations, see https://wiki.hypr.land/Configuring/Advanced-and-Cool/Animations/
-
--- See https://wiki.hypr.land/Configuring/Layouts/Dwindle-Layout/ for more
---
+if not pipe then
+	warn("Could not start file search:\n" .. tostring(err))
+else
+	for path in pipe:lines() do
+		local ok, loadErr = pcall(dofile, path)
+		if not ok then
+			warn(path .. "\n" .. tostring(loadErr))
+		end
+	end
+	pipe:close()
+end
 
 hl.config({
 	misc = {
