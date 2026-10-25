@@ -39,6 +39,64 @@ hl.window_rule({
 	center = true,
 })
 
+-- Custom meeting topics do not match the title above. Zoom can also send a
+-- later X11 configure request that bypasses Hyprland's minimum-size rule.
+-- Watch auxiliary windows briefly for the observed 638x152 clipped preview;
+-- once identified, keep its controls visible until that window closes.
+local previewWindows = {}
+local function previewCandidate(w)
+	return w.class == "zoom" and w.xwayland and w.mapped and w.floating
+		and w.title ~= "Meeting" and not w.title:match("^Zoom Workplace %- ")
+		and not w.title:match("^as_")
+end
+
+local function repairPreview(w, item)
+	item.confirmed = item.confirmed or w.title:match("'s Zoom Meeting$") ~= nil
+		or (w.size.x == 638 and w.size.y == 152)
+	if item.confirmed and (w.size.x < 638 or w.size.y < 510) then
+		hl.dispatch(hl.dsp.window.resize({
+			x = math.max(638, w.size.x), y = math.max(510, w.size.y),
+			relative = false, window = w,
+		}))
+		hl.dispatch(hl.dsp.window.center({ window = w }))
+	end
+end
+
+local previewTimer
+previewTimer = hl.timer(function()
+	for address, item in pairs(previewWindows) do
+		local w = hl.get_window("address:" .. address)
+		if not w or w.stable_id ~= item.id or not previewCandidate(w) then
+			previewWindows[address] = nil
+		else
+			repairPreview(w, item)
+			item.ticks = item.ticks + 1
+			if not item.confirmed and item.ticks >= 25 then
+				previewWindows[address] = nil
+			end
+		end
+	end
+	if not next(previewWindows) then
+		previewTimer:set_enabled(false)
+	end
+end, { timeout = 100, type = "repeat" })
+previewTimer:set_enabled(false)
+
+local function watchPreview(w)
+	if not previewCandidate(w) then
+		previewWindows[w.address] = nil
+		return
+	end
+	local item = previewWindows[w.address]
+	if not item or item.id ~= w.stable_id then
+		item = { id = w.stable_id, ticks = 0 }
+		previewWindows[w.address] = item
+	end
+	-- Repair immediately on open, title changes and config reload as well.
+	repairPreview(w, item)
+	previewTimer:set_enabled(true)
+end
+
 -- Size the generic "Zoom Workplace" feedback dialog to its 540x340 content.
 -- Distinguish it from startup by the separate, already-open account window.
 local function configureZoomFeedback(w)
@@ -187,16 +245,22 @@ timer = hl.timer(function()
 end, { timeout = 100, type = "repeat" })
 timer:set_enabled(false)
 
-hl.on("window.open", function(w) inspect(w, true) end)
+hl.on("window.open", function(w)
+	watchPreview(w)
+	inspect(w, true)
+end)
 hl.on("window.title", function(w)
 	tileZoomHome(w)
+	watchPreview(w)
 	inspect(w, false)
 end)
 hl.on("window.close", function(w)
+	previewWindows[w.address] = nil
 	pending[w.address], popups[w.address] = nil, nil
 end)
 for _, w in ipairs(hl.get_windows()) do
 	tileZoomHome(w)
+	watchPreview(w)
 	inspect(w, false)
 end
 
