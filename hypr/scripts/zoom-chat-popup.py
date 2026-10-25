@@ -4,15 +4,11 @@
 Hyprland does not expose the X11 transient parent to Lua. Match the mapped
 windows conservatively, then return the result to the waiting Lua callback.
 """
-import html
 import json
 import subprocess
 import sys
-import time
 
 from Xlib import X, Xatom, display, error
-
-from zoom_chat_accessibility import read_popup
 
 
 def geometry(window):
@@ -84,39 +80,18 @@ def lua_string(value):
 
 def main():
     address, stable_id = sys.argv[1], int(sys.argv[2])
-    notify = len(sys.argv) > 3 and sys.argv[3] == "notify"
-    info, contents = None, {}
+    info = None
     try:
         info = classify(address, stable_id)
-        if info:
-            # Qt can map its reused toast before updating its accessible label.
-            time.sleep(0.1)
-            contents = read_popup(info["parent_geometry"], info["popup_geometry"], info["meeting"]["pid"])
-            if notify and not contents.get("message"):
-                time.sleep(0.1)
-                contents = read_popup(info["parent_geometry"], info["popup_geometry"], info["meeting"]["pid"])
     except Exception as exc:
         print(f"zoom-chat-popup: {exc}", file=sys.stderr)
     result = lua_string(info["meeting"]["address"]) if info else "nil"
-    center_offset, bottom_inset = "nil", "nil"
-    if info and contents.get("anchor"):
-        meeting = info["meeting"]
-        parent = info["parent_geometry"]
-        anchor = contents["anchor"]
-        center_offset = str(anchor["x"] * meeting["size"][0] / parent[2] - meeting["size"][0] / 2)
-        bottom_inset = str(meeting["size"][1] - anchor["y"] * meeting["size"][1] / parent[3])
+    # Route the confirmed toast immediately, before accessibility can stall
+    # past Lua's fail-open deadline and reveal it on an unrelated workspace.
     callback = ("if hyprlifeZoomPopupClassified then hyprlifeZoomPopupClassified("
-                f"{lua_string(address)},{stable_id},{result},{center_offset},{bottom_inset}) end")
+                f"{lua_string(address)},{stable_id},{result}) end")
     subprocess.run(["hyprctl", "eval", callback], check=True, timeout=3,
                    stdout=subprocess.DEVNULL)
-    if notify and info and contents.get("sender") and contents.get("message"):
-        clients = json.loads(subprocess.check_output(["hyprctl", "-j", "clients"], timeout=3))
-        if not any(w["address"] == address and w["mapped"]
-                   and int(w["stableId"], 16) == stable_id and "zoom-chat" in w["tags"] for w in clients):
-            return
-        subprocess.run(["notify-send", "-a", "Zoom", "-i", "Zoom", "--",
-                        "Zoom Chat", f"<b>{html.escape(contents['sender'])}</b>: {html.escape(contents['message'])}"],
-                       check=True, timeout=3)
 
 
 if __name__ == "__main__":

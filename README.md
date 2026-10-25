@@ -39,7 +39,7 @@ The manifest uses `~/.config`; a custom `XDG_CONFIG_HOME` is not substituted.
 You can use a separate manifest with `./deploy.sh --dry-run MANIFEST.local`
 and `./deploy.sh MANIFEST.local`.
 
-Application directories are linked as a whole. Systemd user drop-ins are linked
+Application directories are linked as a whole. Systemd user units and drop-ins are linked
 individually so other user units and service enablement links can coexist.
 After deploying those drop-ins, run `systemctl --user daemon-reload`; see the
 service setup instructions below for enablement and restart commands. Deployment
@@ -119,6 +119,37 @@ full effect at the next login; a Hyprland config reload does not reread them.
 References: [Hyprland environment variables](https://wiki.hypr.land/Configuring/Advanced-and-Cool/Environment-variables/),
 [UWSM session and application management](https://wiki.hypr.land/useful-utilities/uwsm/),
 and [UWSM launcher integration](https://github.com/Vladimir-csp/uwsm#3-applications-and-slices).
+
+## Zoom meeting chat notifications
+
+`hyprlife-zoom-chat.service` captures Zoom's accessibility message events and
+forwards the sender and message to SwayNC, including on other workspaces. It
+verifies that each event belongs to a native chat toast attached to the running
+meeting. Message content is not written to the journal. There is no generic
+"New message" fallback: an event without verified content is skipped.
+
+The separate `zoomrules.lua` handler keeps Zoom's native chat bubble on the
+meeting workspace. Accessibility queries do not delay window placement.
+
+After running `./deploy.sh`, enable the listener:
+
+```bash
+systemctl --user daemon-reload
+systemctl --user enable --now hyprlife-zoom-chat.service
+```
+
+Requires Python Xlib, PyGObject with the Atspi typelib, `notify-send`, and a
+working accessibility bus. The current implementation matches Zoom's English
+`From … to …` message labels. It runs with the UWSM graphical session and
+reconnects if the accessibility bus restarts.
+
+To check delivery, receive a chat while on another workspace and inspect
+`journalctl --user -u hyprlife-zoom-chat.service`. Each successful delivery logs
+only a confirmation. Run regression checks with
+`python3 -B -m unittest discover -s hypr/tests`.
+
+To stop forwarding, run
+`systemctl --user disable --now hyprlife-zoom-chat.service`.
 
 ## External system configuration log
 

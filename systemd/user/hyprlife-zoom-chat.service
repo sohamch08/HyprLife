@@ -1,0 +1,12 @@
+[Unit]
+Description=Zoom chat notifications with sender and message
+PartOf=graphical-session.target
+After=graphical-session.target
+
+[Service]
+ExecStart=/usr/bin/python3 %h/.config/hypr/scripts/zoom-chat-notifications.py
+Restart=on-failure
+RestartSec=2
+
+[Install]
+WantedBy=graphical-session.target

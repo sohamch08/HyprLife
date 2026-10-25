@@ -22,7 +22,8 @@ yazi|symlink|.config
 zathura|symlink|.config
 topgrade.toml|symlink|.config
 
-# Link only our drop-ins, preserving other user units and enablement links.
+# Link individual units and drop-ins, preserving other user services.
+systemd/user/hyprlife-zoom-chat.service|symlink|.config
 systemd/user/mpd-mpris.service.d/10-mpd-dependency.conf|symlink|.config
 systemd/user/skwd-walld.service.d/10-graphical-session.conf|symlink|.config
 systemd/user/waybar.service.d/20-tray-icon-fix.conf|symlink|.config

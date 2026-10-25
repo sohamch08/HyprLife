@@ -121,7 +121,7 @@ local function configureZoomFeedback(w)
 end
 
 -- Zoom's chat toast shares its title with ordinary dialogs. Confirm its X11
--- utility type and Meeting parent before changing it or sending a notification.
+-- utility type and Meeting parent before moving it to the meeting workspace.
 local pending, popups = {}, {}
 local timer
 
@@ -161,7 +161,7 @@ local function place(w, meeting, anchor)
 		hl.dispatch(hl.dsp.window.resize({ x = width, y = height, relative = false, window = w }))
 	end
 	-- Zoom keeps its meeting controls at the bottom and its Chat button in
-	-- the central group. Accessibility gives the actual button offsets.
+	-- the central group. Anchor the native bubble above that group.
 	local buttonX = meeting.at.x + meeting.size.x / 2 + anchor.centerOffset
 	local buttonY = meeting.at.y + meeting.size.y - anchor.bottomInset
 	local x = math.max(meeting.at.x + 12, math.min(buttonX - width / 2, meeting.at.x + meeting.size.x - width - 12))
@@ -195,22 +195,7 @@ function hyprlifeZoomPopupClassified(address, stableId, meetingAddress, centerOf
 	tag(w, "-zoom-popup-pending")
 end
 
--- Accessibility is optional and may finish after the toast has closed or
--- another one has reused its address. It only refines an already-routed toast.
-function hyprlifeZoomPopupAnchor(address, stableId, meetingAddress, centerOffset, bottomInset)
-	local item = popups[address]
-	local w = hl.get_window("address:" .. address)
-	local meeting = hl.get_window("address:" .. meetingAddress)
-	if not item or item.id ~= stableId or item.meeting ~= meetingAddress
-		or not w or not w.mapped or w.stable_id ~= stableId
-		or not meeting or not meeting.mapped or meeting.stable_id ~= item.meetingId then
-		return
-	end
-	item.centerOffset, item.bottomInset = centerOffset, bottomInset
-	place(w, meeting, item)
-end
-
-local function inspect(w, notify)
+local function inspect(w)
 	if w.class ~= "zoom" or w.title ~= "Zoom Workplace" or not w.mapped or pending[w.address] or popups[w.address] then
 		return
 	end
@@ -225,10 +210,10 @@ local function inspect(w, notify)
 		configureZoomFeedback(w)
 		return
 	end
-	pending[w.address] = { id = w.stable_id, notify = notify, ticks = 0 }
+	pending[w.address] = { id = w.stable_id, ticks = 0 }
 	tag(w, "+zoom-popup-pending")
 	timer:set_enabled(true)
-	hl.exec_cmd(string.format("python3 ~/.config/hypr/scripts/zoom-chat-popup.py %s %d %s", w.address, w.stable_id, notify and "notify" or "quiet"))
+	hl.exec_cmd(string.format("python3 ~/.config/hypr/scripts/zoom-chat-popup.py %s %d", w.address, w.stable_id))
 end
 
 -- Hyprland has no Lua move/resize event. Track geometry only while a toast
@@ -262,14 +247,14 @@ timer:set_enabled(false)
 
 hl.on("window.open", function(w)
 	watchPreview(w)
-	inspect(w, true)
+	inspect(w)
 end)
 hl.on("window.title", function(w)
 	tileZoomHome(w)
 	watchPreview(w)
 	-- Some toasts acquire their title after opening. pending/popups deduplicate
-	-- open + title events; reload scans below stay quiet.
-	inspect(w, true)
+	-- open + title events. Notifications use a separate accessibility listener.
+	inspect(w)
 end)
 hl.on("window.close", function(w)
 	previewWindows[w.address] = nil
@@ -278,7 +263,7 @@ end)
 for _, w in ipairs(hl.get_windows()) do
 	tileZoomHome(w)
 	watchPreview(w)
-	inspect(w, false)
+	inspect(w)
 end
 
 -- Zoom draws these frames itself; extra borders/rounding clip controls and
