@@ -80,7 +80,7 @@ hl.bind(mainMod .. " + L", hl.dsp.focus({ direction = "right" }))
 -- MOVE WINDOWS --
 ------------------
 
--- Let directional movement change the split when there are exactly two tiles.
+-- With two dwindle tiles, preselect lets movement change the split direction.
 local function moveWindowInDirection(direction)
 	local w = hl.get_active_window()
 	if not w then
