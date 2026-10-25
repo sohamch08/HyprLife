@@ -195,6 +195,21 @@ function hyprlifeZoomPopupClassified(address, stableId, meetingAddress, centerOf
 	tag(w, "-zoom-popup-pending")
 end
 
+-- Accessibility is optional and may finish after the toast has closed or
+-- another one has reused its address. It only refines an already-routed toast.
+function hyprlifeZoomPopupAnchor(address, stableId, meetingAddress, centerOffset, bottomInset)
+	local item = popups[address]
+	local w = hl.get_window("address:" .. address)
+	local meeting = hl.get_window("address:" .. meetingAddress)
+	if not item or item.id ~= stableId or item.meeting ~= meetingAddress
+		or not w or not w.mapped or w.stable_id ~= stableId
+		or not meeting or not meeting.mapped or meeting.stable_id ~= item.meetingId then
+		return
+	end
+	item.centerOffset, item.bottomInset = centerOffset, bottomInset
+	place(w, meeting, item)
+end
+
 local function inspect(w, notify)
 	if w.class ~= "zoom" or w.title ~= "Zoom Workplace" or not w.mapped or pending[w.address] or popups[w.address] then
 		return
@@ -252,7 +267,9 @@ end)
 hl.on("window.title", function(w)
 	tileZoomHome(w)
 	watchPreview(w)
-	inspect(w, false)
+	-- Some toasts acquire their title after opening. pending/popups deduplicate
+	-- open + title events; reload scans below stay quiet.
+	inspect(w, true)
 end)
 hl.on("window.close", function(w)
 	previewWindows[w.address] = nil
