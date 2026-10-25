@@ -1,5 +1,53 @@
 # My Hyprland with other things config
 
+## Deploy the configuration
+
+From this checkout, preview the links and then create them:
+
+```bash
+./deploy.sh --dry-run
+./deploy.sh
+```
+
+Run as your normal user. The script uses `MANIFEST` next to `deploy.sh`, works
+from any current directory, and creates missing parent directories. It checks
+every entry before creating links and reports conflicts, including broken
+symlinks. Move or back up conflicting destinations yourself, then rerun it.
+Existing symlinks to the same source are left in place. A filesystem error
+during link creation can still leave earlier links in place; rerun after fixing
+the error. The checkout must remain in place because the symlinks point into it.
+
+To add a configuration, add one line to `MANIFEST`:
+
+```text
+source-path|symlink|destination-directory
+```
+
+The source path is relative to this repository. The destination directory is
+relative to `$HOME`, and the **entire source path** is appended to it:
+
+| Manifest entry | Result |
+| --- | --- |
+| `hypr\|symlink\|.config` | `~/.config/hypr` links to this checkout's `hypr` directory |
+| `topgrade.toml\|symlink\|.config` | `~/.config/topgrade.toml` links to the file here |
+| `systemd/user/waybar.service.d/20-tray-icon-fix.conf\|symlink\|.config` | `~/.config/systemd/user/waybar.service.d/20-tray-icon-fix.conf` links to the drop-in here |
+
+An empty destination field targets `$HOME` directly (for example,
+`.zshrc|symlink|`, if you add that file). Blank lines and whole-line `#` comments
+are allowed. Paths are literal: do not use `~`, `$HOME`, or shell expressions.
+The manifest uses `~/.config`; a custom `XDG_CONFIG_HOME` is not substituted.
+You can use a separate manifest with `./deploy.sh --dry-run MANIFEST.local`
+and `./deploy.sh MANIFEST.local`.
+
+Application directories are linked as a whole. Systemd user drop-ins are linked
+individually so other user units and service enablement links can coexist.
+After deploying those drop-ins, run `systemctl --user daemon-reload`; see the
+service setup instructions below for enablement and restart commands. Deployment
+does not install packages, enable services, or install the privileged
+`systemd/system` files. The empty, untracked `mpDris2` directory is excluded.
+Some configs contain machine-specific paths and settings (for example,
+`mpd/mpd.conf`); review them when using this checkout on another machine.
+
 ## Tools and themes
 
 | Tool / theme  | Used for                                   | Repository                                                                                                                 |

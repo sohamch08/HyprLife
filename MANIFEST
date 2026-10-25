@@ -1,0 +1,31 @@
+# Format: source-path|symlink|destination-directory
+# Both paths are relative: source to this repository, destination directory to HOME.
+# Target = $HOME/<destination-directory>/<source-path>
+
+# Desktop and application configuration
+alacritty|symlink|.config
+autostart|symlink|.config
+blurs|symlink|.config
+cliphist|symlink|.config
+fastfetch|symlink|.config
+hypr|symlink|.config
+kew|symlink|.config
+mpd|symlink|.config
+quickshell|symlink|.config
+rmpc|symlink|.config
+rofi|symlink|.config
+swaync|symlink|.config
+uwsm|symlink|.config
+waybar|symlink|.config
+wifi-manager|symlink|.config
+yazi|symlink|.config
+zathura|symlink|.config
+topgrade.toml|symlink|.config
+
+# Link only our drop-ins, preserving other user units and enablement links.
+systemd/user/mpd-mpris.service.d/10-mpd-dependency.conf|symlink|.config
+systemd/user/skwd-walld.service.d/10-graphical-session.conf|symlink|.config
+systemd/user/waybar.service.d/20-tray-icon-fix.conf|symlink|.config
+
+# mpDris2 is empty and not tracked. Add it here if configuration is added later.
+# systemd/system requires a separate privileged setup; see systemd/system/README.md.
