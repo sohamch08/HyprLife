@@ -46,6 +46,7 @@ local menu = "uwsm app -- ~/.config/rofi/launchers/type-2/launcher.sh"
 local clipboard =
 	"uwsm app -- rofi -modi 'Clipboard:/home/soham/.config/cliphist/cliphist-rofi' -show Clipboard -theme ~/.config/rofi/launchers/type-1/style-11.rasi"
 
+---@type { mod?: string, key: string[], dispatch: string|HL.Dispatcher|function, opts?: HL.BindOptions }[]
 local globalAppBinds = {
 	---- Window functions
 	{ key = { "Q" }, dispatch = hl.dsp.window.close() },
@@ -191,14 +192,15 @@ local globalAppBinds = {
 for _, bind in ipairs(globalAppBinds) do
 	-- Use the specified modifier, otherwise use SUPER.
 	local modBind = bind.mod or mainMod
+	local dispatch = bind.dispatch
 	local command
 
 	-- Wrap shell commands in exec_cmd.
 	-- Hyprland actions and Lua functions pass through directly.
-	if type(bind.dispatch) == "string" then
-		command = hl.dsp.exec_cmd(bind.dispatch)
+	if type(dispatch) == "string" then
+		command = hl.dsp.exec_cmd(dispatch)
 	else
-		command = bind.dispatch
+		command = dispatch
 	end
 
 	local opts = bind.opts or {}

@@ -91,7 +91,8 @@ end
 -- Recover opening order when reloading the config with Obsidian running.
 local existingWindows = hl.get_windows()
 table.sort(existingWindows, function(a, b)
-	return tonumber(a.stable_id) < tonumber(b.stable_id)
+	-- Hyprland exposes stable IDs as hexadecimal strings without a 0x prefix.
+	return tonumber(a.stable_id, 16) < tonumber(b.stable_id, 16)
 end)
 for _, w in ipairs(existingWindows) do
 	configureObsidianWindow(w)
