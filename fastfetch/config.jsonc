@@ -1,92 +1,91 @@
 {
-  "$schema": "https://github.com/fastfetch-cli/fastfetch/raw/dev/doc/json_schema.json",
   "logo": {
-    "type": "small",
-    "padding": {
-      "top": 2,
-      "left": 2,
-      "right": 1,
+    "type": "file",
+    "source": "$HOME/.config/fastfetch/ascii-text.txt",
+    "padding": { "top": 2, "left": 2 },
+    "color": {
+      "1": "white",
+      "2": "red",
     },
   },
   "display": {
-    "separator": ">  ",
-    "color": {
-      "separator": "red",
+    "key": {
+      "width": 15,
     },
-    "constants": [
-      "════════════════════════════════════════════════════════════",
-      "║\u001b[60C║\u001b[60D",
-    ],
+    "color": "#cbd5e1",
+    "separator": "~>",
   },
   "modules": [
+    "break",
+    "break",
+    "break",
+    "break",
     {
-      "format": "{#1}{#keys}╔{$1}╗\u001b[61D {user-name-colored}{at-symbol-colored}{host-name-colored} 💻 ",
       "type": "title",
+      "format": "{6}",
+      "color": "#e11d48",
     },
+    "separator",
     {
-      "key": "{$2}{#31} kernel   ",
-      "type": "kernel",
-    },
-    {
-      "key": "{$2}{#32}󰅐 uptime   ",
-      "type": "uptime",
-    },
-    {
-      "key": "{$2}{#33}{icon} distro   ",
       "type": "os",
+      "key": "OS       ",
+      "keyColor": "#4fd1c5",
+      "format": "Arch (Btw)",
     },
     {
-      "key": "{$2}{#34}󰇄 desktop  ",
-      "type": "de",
+      "type": "kernel",
+      "key": "Kernel   ",
+      "keyColor": "#4fd1c5",
+      "format": "{1} {2}",
     },
     {
-      "key": "{$2}{#35} term     ",
-      "type": "terminal",
+      "type": "users",
+      "key": "User     ",
+      "keyColor": "#4fd1c5",
+      "format": "Iso",
+    },
+    "break",
+    {
+      "type": "uptime",
+      "key": "Uptime   ",
+      "keyColor": "#4fd1c5",
     },
     {
-      "key": "{$2}{#36} shell    ",
-      "type": "shell",
+      "type": "bios",
+      "key": "Bios     ",
+      "keyColor": "#4fd1c5",
+      "format": "{4}",
     },
     {
-      "key": "{$2}{#35} WM       ",
-      "type": "wm",
-      "showPeCoreCount": true,
+      "type": "cpu",
+      "key": "CPU      ",
       "temp": true,
+      "showPeCoreCount": true,
+      "keyColor": "#4fd1c5",
+      "format": "{1}",
     },
     {
-      "key": "{$2}{#34}󰧨 LM       ",
-      "type": "lm",
-    },
-    // {
-    //     "key": "{$2}{#34}󰍛 gpu      ",
-    //     "type": "gpu"
-    // },
-    // {
-    //     "key": "{$2}{#33}󰉉 disk     ",
-    //     "type": "disk",
-    //     "folders": "/"
-    // },
-    // {
-    //     "key": "{$2}{#32} memory   ",
-    //     "type": "memory"
-    // },
-    {
-      "key": "{$2}{#31}󰩟 network  ",
-      "type": "localip",
-      "format": "{ipv4} ({ifname})",
+      "type": "gpu",
+      "key": "GPU      ",
+      "temp": true,
+      "showPeCoreCount": true,
+      "keyColor": "#4fd1c5",
+      "format": "{1} {2} {4}",
     },
     {
-      "format": "{#1}{#keys}╠{$1}╣",
-      "type": "custom",
+      "type": "memory",
+      "key": "RAM      ",
+      "temp": true,
+      "showPeCoreCount": true,
+      "keyColor": "#4fd1c5",
+      "format": "{1} / {2} {3}",
     },
+    "break",
     {
-      "key": "{$2}{#39}󰏘 colors   ",
-      "type": "colors",
-      "symbol": "circle",
-    },
-    {
-      "format": "{#1}{#keys}╚{$1}╝",
-      "type": "custom",
+      "type": "Disk",
+      "key": "Disk     ",
+      "keyColor": "#4fd1c5",
+      "format": "{1} / {2} {3} ",
     },
   ],
 }
