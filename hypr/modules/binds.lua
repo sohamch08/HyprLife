@@ -84,6 +84,10 @@ local globalAppBinds = {
 	{ key = { "SHIFT + PRINT" }, dispatch = "uwsm app -- hyprshot -m region" },
 
 	---- Session
+	{
+		key = { "SHIFT + N" },
+		dispatch = [[uwsm app -- alacritty --class neo-screensaver -o 'window.startup_mode="Fullscreen"' -o 'window.padding={x=0,y=0}' -e zsh -c 'source "$HOME/.config/zsh/aliases.zsh"; eval "neowake -s"']],
+	},
 	{ key = { "SHIFT + E" }, dispatch = "uwsm app -- ~/.config/rofi/powermenu/type-4/powermenu.sh" },
 	{ key = { "SHIFT + X" }, dispatch = "uwsm app -- hyprlock" },
 	{ key = { "SHIFT + R" }, dispatch = "~/.config/waybar/scripts/launch.sh" },
