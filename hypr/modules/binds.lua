@@ -40,7 +40,7 @@ local mainMod = "SUPER + "
 local keyboardString = "1234567890"
 
 -- Application commands
-local terminal = "uwsm app -- alacritty"
+local terminal = "uwsm app -- kitty"
 local fileManager = "uwsm app -- dolphin"
 local menu = "uwsm app -- ~/.config/rofi/launchers/type-2/launcher.sh"
 local clipboard =
