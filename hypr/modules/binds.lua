@@ -74,6 +74,9 @@ local globalAppBinds = {
 	-- Icon picker
 	{ key = { "period" }, dispatch = "uwsm app -- ~/.config/rofi/scripts/icon-picker" },
 
+	-- Rofi Gopass
+	{ key = { "G" }, dispatch = "uwsm app -- ~/.local/bin/rofi-gopass" },
+
 	-- Papers
 	{ key = { "P" }, dispatch = "uwsm app -- ~/.config/rofi/scripts/paper/openpapers.sh" },
 
