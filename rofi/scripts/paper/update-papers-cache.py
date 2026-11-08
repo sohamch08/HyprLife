@@ -1,9 +1,10 @@
 #!/usr/bin/env python3
 """Rebuild the paper search cache from PDFs and matching Markdown frontmatter.
 
-PAPERS_DIR: ~/My Papers
-PAPERS_NOTES_DIR: ~/projects/my-research
-PAPERS_CACHE: ~/.cache/hyprlife/papers.json (honors XDG_CACHE_HOME)
+Required environment variables (export in .zshenv):
+SOHAM_PAPERS_DIR: directory containing PDFs
+SOHAM_PAPERS_NOTES_DIR: directory containing Markdown notes
+SOHAM_PAPERS_CACHE: path to the JSON cache file
 Requires PyYAML. This is the only script that scans PDFs and reads notes.
 """
 from __future__ import annotations

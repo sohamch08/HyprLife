@@ -120,6 +120,26 @@ References: [Hyprland environment variables](https://wiki.hypr.land/Configuring/
 [UWSM session and application management](https://wiki.hypr.land/useful-utilities/uwsm/),
 and [UWSM launcher integration](https://github.com/Vladimir-csp/uwsm#3-applications-and-slices).
 
+## Rofi papers
+
+Export these paths in your `.zshenv` (under `$ZDOTDIR` if configured):
+
+```zsh
+export SOHAM_PAPERS_DIR="$HOME/My Papers"
+export SOHAM_PAPERS_NOTES_DIR="$HOME/projects/Research"
+export SOHAM_PAPERS_CACHE="$HOME/.cache/hyprlife/papers.json"
+```
+
+All three variables are required. `SOHAM_PAPERS_CACHE` is a JSON file path; its parent
+directory is created automatically. Both paper launchers use Zsh, which reads
+`.zshenv` even when launched through the Hyprland shortcut. The Python scripts
+read the exported variables from their environment.
+
+Run `./rofi/scripts/paper/update-papers-cache.sh` to build the cache, then
+`./rofi/scripts/paper/openpapers.sh` to open the picker. Choose **Update paper
+cache** after changing the paths, adding PDFs, or editing notes. Cache generation
+requires PyYAML.
+
 ## Zoom meeting chat notifications
 
 `hyprlife-zoom-chat.service` captures Zoom's accessibility message events and

@@ -1,6 +1,6 @@
-#!/usr/bin/env bash
+#!/usr/bin/env zsh
 
-# Search My Papers and Markdown note metadata in a single themed Rofi box.
+# Zsh loads .zshenv, including the exported SOHAM_PAPERS_* paths, for desktop launches.
 set -euo pipefail
-script_dir="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)"
+script_dir="${0:A:h}"
 exec python3 "$script_dir/openpapers.py"

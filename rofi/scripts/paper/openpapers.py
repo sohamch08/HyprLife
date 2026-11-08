@@ -2,31 +2,36 @@
 """Open the cached paper picker, counting live PDFs without reading metadata.
 
 Choose Update paper cache in the menu after adding papers or editing notes.
+Configure SOHAM_PAPERS_DIR, SOHAM_PAPERS_NOTES_DIR, and SOHAM_PAPERS_CACHE.
 """
+
 from __future__ import annotations
 
 import json
 import os
-from pathlib import Path
 import shutil
 import subprocess
 import sys
+from pathlib import Path
 
 THEME = Path(__file__).resolve().parents[2] / "themes/papers.rasi"
 REFRESH = Path(__file__).resolve().with_name("update-papers-cache.sh")
 
 
+def configured_path(variable: str) -> Path:
+    value = os.environ.get(variable)
+    if not value or not value.strip():
+        raise ValueError(f"Export {variable} in .zshenv before using the paper picker.")
+    # Normalize paths consistently without resolving symlinks.
+    return Path(os.path.abspath(Path(value).expanduser()))
+
+
 def cache_path() -> Path:
-    base = Path(os.environ.get("XDG_CACHE_HOME", str(Path.home() / ".cache")))
-    return Path(os.environ.get("PAPERS_CACHE", str(base / "hyprlife/papers.json"))).expanduser()
+    return configured_path("SOHAM_PAPERS_CACHE")
 
 
 def source_paths() -> tuple[Path, Path]:
-    # Keep source paths consistent with the cache without resolving symlinks.
-    return tuple(Path(os.path.abspath(Path(os.environ.get(variable, str(default))).expanduser()))
-                 for variable, default in (
-                     ("PAPERS_DIR", Path.home() / "My Papers"),
-                     ("PAPERS_NOTES_DIR", Path.home() / "projects/my-research")))
+    return configured_path("SOHAM_PAPERS_DIR"), configured_path("SOHAM_PAPERS_NOTES_DIR")
 
 
 def count_pdfs(root: Path) -> int:
@@ -56,8 +61,12 @@ def read_cache() -> dict:
         if not isinstance(paper, dict) or not isinstance(paper.get("path"), str):
             raise ValueError("Invalid cached paper path")
         path = Path(paper["path"])
-        if not path.is_absolute() or ".." in path.parts or not path.is_relative_to(root):
-            raise ValueError("Cached paper is outside My Papers")
+        if (
+            not path.is_absolute()
+            or ".." in path.parts
+            or not path.is_relative_to(root)
+        ):
+            raise ValueError("Cached paper is outside SOHAM_PAPERS_DIR")
     if len(data["rows"].splitlines()) != len(papers):
         raise ValueError("Cached rows and paper paths do not match")
     return data
@@ -73,6 +82,11 @@ def main() -> int:
     if not shutil.which("rofi"):
         print("Rofi is not installed.", file=sys.stderr)
         return 1
+    try:
+        source_paths()
+        cache_path()
+    except ValueError as exc:
+        return error(str(exc))
     while True:
         try:
             data = read_cache()
@@ -90,26 +104,56 @@ def main() -> int:
             print(f"Could not count PDFs: {exc}", file=sys.stderr)
             total = "?"
         count = f"{len(papers)}/{total}"
-        rows = ('<span font_desc="Iosevka Nerd Font Propo 12">↻</span>'
-                '<span rise="1024">  Update paper cache</span>\n' + data["rows"])
-        result = subprocess.run([
-            "rofi", "-dmenu", "-i", "-no-custom", "-markup-rows", "-no-multi-select",
-            "-hover-select",
-            "-pid", str(Path(os.environ.get("XDG_RUNTIME_DIR", str(cache_path().parent))) / "hyprlife-papers.pid"),
-            "-matching", "normal", "-tokenize", "-normalize-match", "-format", "i",
-            "-selected-row", "1" if papers else "0",
-            "-p", "📚 My Papers:", "-theme", str(THEME),
-            "-theme-str", (f'entry {{ placeholder: {json.dumps(placeholder)}; }}\n'
-                           f'textbox-paper-count {{ str: {json.dumps(count)}; }}'),
-        ], input=rows, text=True, stdout=subprocess.PIPE, check=False)
+        rows = (
+            '<span font_desc="Iosevka Nerd Font Propo 12">↻</span>'
+            '<span rise="1024">  Update paper cache</span>\n' + data["rows"]
+        )
+        result = subprocess.run(
+            [
+                "rofi",
+                "-dmenu",
+                "-i",
+                "-no-custom",
+                "-markup-rows",
+                "-no-multi-select",
+                "-hover-select",
+                "-pid",
+                str(
+                    Path(os.environ.get("XDG_RUNTIME_DIR", str(cache_path().parent)))
+                    / "hyprlife-papers.pid"
+                ),
+                "-matching",
+                "normal",
+                "-tokenize",
+                "-normalize-match",
+                "-format",
+                "i",
+                "-selected-row",
+                "1" if papers else "0",
+                "-p",
+                "📚 My Papers:",
+                "-theme",
+                str(THEME),
+                "-theme-str",
+                (
+                    f"entry {{ placeholder: {json.dumps(placeholder)}; }}\n"
+                    f"textbox-paper-count {{ str: {json.dumps(count)}; }}"
+                ),
+            ],
+            input=rows,
+            text=True,
+            stdout=subprocess.PIPE,
+            check=False,
+        )
         selected = result.stdout.strip()
         if result.returncode != 0 or not selected.isdecimal():
             return 0
         choice = int(selected)
         if choice == 0:
             try:
-                update = subprocess.run([str(REFRESH)], text=True,
-                                        capture_output=True, check=False)
+                update = subprocess.run(
+                    [str(REFRESH)], text=True, capture_output=True, check=False
+                )
                 if update.returncode != 0:
                     error("Cache update failed:\n" + (update.stderr or update.stdout))
             except OSError as exc:
@@ -120,16 +164,24 @@ def main() -> int:
             return 1
         path = Path(papers[choice - 1]["path"])
         if not path.is_file():
-            error(f"Paper moved or deleted: {path}\nChoose Update paper cache in the menu.")
+            error(
+                f"Paper moved or deleted: {path}\nChoose Update paper cache in the menu."
+            )
             continue
         break
     # Viewer discovery happens only after selection, never before showing Rofi.
     if shutil.which("okular"):
         viewer = ["okular"]
-    elif shutil.which("flatpak") and subprocess.run(
-        ["flatpak", "info", "org.kde.okular"], stdout=subprocess.DEVNULL,
-        stderr=subprocess.DEVNULL, check=False,
-    ).returncode == 0:
+    elif (
+        shutil.which("flatpak")
+        and subprocess.run(
+            ["flatpak", "info", "org.kde.okular"],
+            stdout=subprocess.DEVNULL,
+            stderr=subprocess.DEVNULL,
+            check=False,
+        ).returncode
+        == 0
+    ):
         viewer = ["flatpak", "run", "org.kde.okular"]
     else:
         return error("Okular is not installed (native or Flatpak).")
