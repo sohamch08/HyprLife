@@ -18,6 +18,8 @@ notify_end = "on_failure"
 [commands]
 # Load the Zsh configuration to make zplugin-update available.
 "Zsh plugins" = "ZDOTDIR=\"$HOME/.config/zsh\" zsh -ic 'zplugin-update; exit $?'"
+# Requires Obsidian to be running; update community plugins in the Research vault.
+"Obsidian plugins" = "bash \"$HOME/projects/HyprLife/maintenance/update-obsidian-plugins.sh\" Research"
 
 [python]
 # Requires pip-review to be installed.
