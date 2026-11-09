@@ -1,4 +1,3 @@
-#!/usr/bin/env python3
 """Rebuild the paper search cache from PDFs and matching Markdown frontmatter.
 
 Required environment variables (export in .zshenv):
@@ -7,20 +6,22 @@ SOHAM_PAPERS_NOTES_DIR: directory containing Markdown notes
 SOHAM_PAPERS_CACHE: path to the JSON cache file
 Requires PyYAML. This is the only script that scans PDFs and reads notes.
 """
+
 from __future__ import annotations
 
-from dataclasses import dataclass, asdict
-from datetime import datetime, timezone
 import json
-from html import escape
 import os
-from pathlib import Path
 import re
 import sys
 import tempfile
 import unicodedata
+from dataclasses import asdict, dataclass
+from datetime import UTC, datetime
+from html import escape
+from pathlib import Path
 
 from openpapers import cache_path, source_paths
+
 
 def key(text: str) -> str:
     return "".join(c for c in text.casefold() if c.isalnum())
@@ -36,8 +37,7 @@ def note_text(value: object) -> str:
     def link(match: re.Match) -> str:
         target, _, alias = match[1].partition("|")
         name = target.split("#", 1)[0].rsplit("/", 1)[-1]
-        if name.endswith(".md"):
-            name = name[:-3]
+        name = name.removesuffix(".md")
         return name + (" " + alias if alias and alias != name else "")
     return clean(re.sub(r"\[\[([^\]]+)\]\]", link, text))
 
@@ -177,7 +177,7 @@ def rebuild() -> dict:
     records = [dict(asdict(p), path=str(p.path)) for p in papers]
     data = {
         "version": 1,
-        "updated_at": datetime.now(timezone.utc).isoformat(),
+        "updated_at": datetime.now(UTC).isoformat(),
         "papers_dir": str(root),
         "notes_dir": str(notes),
         "papers": records,

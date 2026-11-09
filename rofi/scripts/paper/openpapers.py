@@ -1,4 +1,3 @@
-#!/usr/bin/env python3
 """Open the cached paper picker, counting live PDFs without reading metadata.
 
 Choose Update paper cache in the menu after adding papers or editing notes.
@@ -54,12 +53,12 @@ def read_cache() -> dict:
         raise ValueError("Cache belongs to different paper or note folders")
     papers = data.get("papers")
     if not isinstance(papers, list) or not isinstance(data.get("rows"), str):
-        raise ValueError("Invalid cached paper list")
+        raise TypeError("Invalid cached paper list")
     if not isinstance(data.get("enriched"), int):
-        raise ValueError("Invalid cached metadata count")
+        raise TypeError("Invalid cached metadata count")
     for paper in papers:
         if not isinstance(paper, dict) or not isinstance(paper.get("path"), str):
-            raise ValueError("Invalid cached paper path")
+            raise TypeError("Invalid cached paper path")
         path = Path(paper["path"])
         if (
             not path.is_absolute()
@@ -92,7 +91,7 @@ def main() -> int:
             data = read_cache()
             papers = data["papers"]
             placeholder = "Search: sudan 2008, or type update"
-        except (OSError, UnicodeError, ValueError):
+        except (OSError, UnicodeError, ValueError, TypeError):
             data = {"rows": ""}
             papers = []
             placeholder = "Choose Update paper cache to rebuild the cache"
