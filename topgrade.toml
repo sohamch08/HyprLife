@@ -2,7 +2,9 @@
 
 [misc]
 pre_sudo = true
-disable = ["firmware", "hyprpm"]
+sudo_loop = true
+sudo_loop_interval = 60
+disable = ["firmware", "hyprpm", "shell"]
 last = ["flatpak"]
 ignore_failures = ["pip3"]
 assume_yes = true
@@ -84,6 +86,7 @@ notify_end = "on_failure"
 
 # Custom commands
 [commands]
+"Zsh plugins" = "ZDOTDIR=\"$HOME/.config/zsh\" zsh -ic 'zplugin-update; exit $?'"
 # "Sync ZSH Plugins" = "cd ~/.config/zsh && sh ~/.config/zsh/zpluginsUpdate.sh"
 # "Update Lazy.Nvim" = "cd ~/.config/nvim && nvim --headless '+Lazy! sync' +qa"
 # "Update Atuin" = "atuin update"
@@ -228,13 +231,14 @@ max_concurrency = 5
 repos = [
     "~/projects/HyprLife",
     "~/projects/sohamch08.github.io",
-    "~/projects/lumina",
-    "~/projects/my-research",
+    "~/projects/Research",
     "~/projects/My-bibs",
     "~/projects/CV",
     "~/projects/dotfiles",
     "~/.config/nvim",
-    "~/.config/mutt",
+    "~/.config/cmus",
+    "~/.config/tmux",
+    "~/.config/neomutt",
     "~/.config/zsh",
 ]
 
