@@ -5,6 +5,8 @@
 -- Waybar, SwayNC, Hyprsunset and MPD/MPRIS use enabled user services.
 -- UWSM runs XDG autostart (nm-applet); PAM/D-Bus handles keyring.
 local appList = {
+	"uwsm-app ping",
+	"kitty --single-instance --instance-group=terminal --start-as=hidden",
 	-- Polkit authentication agent
 	"/usr/libexec/kf6/polkit-kde-authentication-agent-1",
 
