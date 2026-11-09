@@ -1,5 +1,6 @@
-#!/usr/bin/env zsh
-# Load the exported SOHAM_PAPERS_* paths from .zshenv on startup.
-set -euo pipefail
-script_dir="${0:A:h}"
+#!/bin/sh
+# SOHAM_PAPERS_* paths are inherited from the launching environment.
+set -eu
+script_path=$(realpath -- "$0")
+script_dir=$(dirname -- "$script_path")
 exec python3 -B "$script_dir/update-papers-cache.py"

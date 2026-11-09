@@ -131,9 +131,10 @@ export SOHAM_PAPERS_CACHE="$HOME/.cache/hyprlife/papers.json"
 ```
 
 All three variables are required. `SOHAM_PAPERS_CACHE` is a JSON file path; its parent
-directory is created automatically. Both paper launchers use Zsh, which reads
-`.zshenv` even when launched through the Hyprland shortcut. The Python scripts
-read the exported variables from their environment.
+directory is created automatically. Both paper launchers use `/bin/sh` and inherit
+the exported variables; they do not load `.zshenv`. For the Hyprland shortcut,
+also provide these exports in the graphical session environment (for example,
+`uwsm/env`, loaded at the next login).
 
 Run `./rofi/scripts/paper/update-papers-cache.sh` to build the cache, then
 `./rofi/scripts/paper/openpapers.sh` to open the picker. Choose **Update paper
